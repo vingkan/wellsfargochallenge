@@ -39,11 +39,11 @@
 				var textData = data;
 				console.log('started');
 				var lines = data.split("\n");
-				//var fileSize = lines.length;
-				var fileSize = 100000;
+				var fileSize = lines.length;
+				//var fileSize = 100;
 				document.write("[");
-				for(var i = 0; i < fileSize; i++){
-					var values = lines[i].split("|");
+				for(var i = 0; i < 100; i++){
+					var values = lines[i*100].split("|");
 					var json = {
 						id: values[0],
 						date: values[1],
