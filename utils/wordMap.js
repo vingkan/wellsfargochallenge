@@ -54,15 +54,21 @@ WordMap.prototype.get = function(index){
 	return response;
 }
 
-WordMap.prototype.sort = function(){
+WordMap.prototype.sort = function(descending){
 	this.map.sort(function(a, b){
-		//Sorts word pairings so most frequent are first
-		return b.count - a.count;
+		if(descending){
+			//Sorts word pairings so most frequent are first
+			return b.count - a.count;	
+		}
+		else{
+			//Sorts word pairings so most frequent are last
+			return a.count - b.count;
+		}
 	});
 }
 
-WordMap.prototype.getTopResults = function(size){
-	this.sort();
+WordMap.prototype.getResults = function(size, topResults){
+	this.sort(topResults);
 	var result;
 	for(var w = 0; w < size; w++){
 		result = this.get(w);
