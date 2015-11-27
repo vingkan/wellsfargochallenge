@@ -20,20 +20,50 @@
 		<h1>Wells Fargo Data Analytics Challenge</h1>
 
 		<!-- NATIVE SCRIPTS -->
-		<!--<script type="text/javascript" src="data/raw-text.js"></script>-->
+		<script type="text/javascript" src="data/stringified.js"></script>
 		<!-- ______________ -->
 
 		<script type="text/javascript">
 
-			var fileURL = 'http://localhost:8000/data/sample-data.txt';
+			var fileURL = 'https://c7bc5a3a1eec525091f717ca9c0611b2d48ebf9f-www.googledrive.com/host/0B5EZCXdq2crRbG94TGhuNk1tcU0';
+			//var fileURL = 'http://localhost:8000/data/sample-data.txt';
 			//var fileURL = 'http://localhost:8000/data/social-media-data.txt';
+
+			/*for(var f = 0; f < 100; f++){
+				console.log(fullData[f]);
+				var obj = JSON.parse(fullData[f]);
+				console.log(obj);
+			}*/
 
 			$.get(fileURL, function(data){
 				var textData = data;
-				console.log(data);
+				console.log('started');
+				var lines = data.split("\n");
+				//var fileSize = lines.length;
+				var fileSize = 100000;
+				document.write("[");
+				for(var i = 0; i < fileSize; i++){
+					var values = lines[i].split("|");
+					var json = {
+						id: values[0],
+						date: values[1],
+						year: values[2],
+						month: values[3],
+						source: values[4],
+						text: values[5]
+					}
+					//console.log(json);
+					var stringified = JSON.stringify(json);
+					//console.log(stringified);
+					document.write(stringified);
+					document.write(",");
+					console.log(i);
+				}
+				document.write("]");
+				console.log('ended');
 			});
 			
-			xhrDoc = new XMLHttpRequest();
+			/*xhrDoc = new XMLHttpRequest();
 			xhrDoc.open('GET', fileURL, 'async');
 			if(xhrDoc.overrideMimeType){
 				xhrDoc.overrideMimeType('text/plain; charset=x-user-defined');
@@ -46,7 +76,7 @@
 					}
 				}
 			}
-			xhrDoc.send();
+			xhrDoc.send();*/
 
 			console.log("LOADED MAIN");
 
