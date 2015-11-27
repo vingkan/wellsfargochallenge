@@ -19,9 +19,34 @@
 
 		<h1>Wells Fargo Data Analytics Challenge</h1>
 
+		<!-- NATIVE SCRIPTS -->
+		<!--<script type="text/javascript" src="data/raw-text.js"></script>-->
+		<!-- ______________ -->
+
 		<script type="text/javascript">
 
+			var fileURL = 'http://localhost:8000/data/sample-data.txt';
+			//var fileURL = 'http://localhost:8000/data/social-media-data.txt';
+
+			$.get(fileURL, function(data){
+				var textData = data;
+				console.log(data);
+			});
 			
+			xhrDoc = new XMLHttpRequest();
+			xhrDoc.open('GET', fileURL, 'async');
+			if(xhrDoc.overrideMimeType){
+				xhrDoc.overrideMimeType('text/plain; charset=x-user-defined');
+			}
+			xhrDoc.onreadystatechange = function(){
+				if(this.readyState == 4){
+					if(this.status == 200){
+						var data = this.response;
+						console.log(data);
+					}
+				}
+			}
+			xhrDoc.send();
 
 			console.log("LOADED MAIN");
 
