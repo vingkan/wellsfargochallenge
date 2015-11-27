@@ -39,3 +39,27 @@ WordMap.prototype.add = function(thisWord){
 		this.countWord(thisWord);
 	}
 }
+
+WordMap.prototype.get = function(index){
+	var response = null;
+	if(index >= 0 && index < this.map.length){
+		response = this.map[index];
+	}
+	return response;
+}
+
+WordMap.prototype.sort = function(){
+	this.map.sort(function(a, b){
+		//Sorts word pairings so most frequent are first
+		return b.count - a.count;
+	});
+}
+
+WordMap.prototype.getTopResults = function(size){
+	this.sort();
+	var result;
+	for(var w = 0; w < size; w++){
+		result = this.get(w);
+		console.log(w + '. ' + result.word + '(' + result.count + ')');
+	}
+}

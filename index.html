@@ -22,18 +22,24 @@
 		<ul id="test-list"></ul>
 
 		<!-- NATIVE SCRIPTS -->
+		<script type="text/javascript" src="utils/storage.js"></script>
+		<script type="text/javascript" src="utils/wordMap.js"></script>
+		<script type="text/javascript" src="data/getData.js"></script>
 		<script type="text/javascript" src="data/stringified.js"></script>
 		<script type="text/javascript" src="analysis/summary.js"></script>
 		<!-- ______________ -->
 
 		<script type="text/javascript">
 
+			//var testData = {json data initialized in data/stringified.js};
+			//var wordMap = new WordMap();
+			var storage = new Storage();
+
 			/*var size = testData.length; 
 			for(var f = 0; f < size; f++){
 				var output = document.getElementById('test-list');
 				output.innerHTML += '<li>' + testData[f].text + '</li>';
 			}*/
-
 
 			console.log("LOADED MAIN");
 

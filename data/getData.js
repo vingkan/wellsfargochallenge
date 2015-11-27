@@ -1,8 +1,46 @@
-var fileURL = 'https://c7bc5a3a1eec525091f717ca9c0611b2d48ebf9f-www.googledrive.com/host/0B5EZCXdq2crRbG94TGhuNk1tcU0';
-//var fileURL = 'http://localhost:8000/data/sample-data.txt';
-//var fileURL = 'http://localhost:8000/data/social-media-data.txt';
+function getRandomDataArray(storage, size, id){
+	
+	var fileURL = 'https://c7bc5a3a1eec525091f717ca9c0611b2d48ebf9f-www.googledrive.com/host/0B5EZCXdq2crRbG94TGhuNk1tcU0';
+	var response = [];
+	
+	$.get(fileURL, function(data){
+		
+		var textData = data;
+		var lines = data.split("\n");
+		var fileSize = lines.length;
+		var randomIndex;
 
-$.get(fileURL, function(data){
+		//console.log('started');
+		for(var i = 0; i < size; i++){
+			randomIndex = Math.floor(Math.random() * (fileSize - 1));
+			var values = lines[randomIndex].split("|");
+			var json = {
+				id: values[0],
+				date: values[1],
+				year: values[2],
+				month: values[3],
+				source: values[4],
+				text: values[5]
+			}
+			//var stringified = JSON.stringify(json);
+			response.push(json);
+			//console.log(i);
+		}
+		//console.log('ended');
+
+		var toStorage = {
+			id: id,
+			data: response
+		}
+		storage.add(toStorage);
+		console.log('Added to storage with ID: ' + id);
+
+	});
+
+}
+
+//PRIMARY APPROACH USING JQUERY REQUESTS
+/*$.get(fileURL, function(data){
 	var textData = data;
 	console.log('started');
 	var lines = data.split("\n");
@@ -28,8 +66,9 @@ $.get(fileURL, function(data){
 	}
 	document.write("]");
 	console.log('ended');
-});
+});*/
 
+//ALTERNATE APPROACH USING XML REQUESTS
 /*xhrDoc = new XMLHttpRequest();
 xhrDoc.open('GET', fileURL, 'async');
 if(xhrDoc.overrideMimeType){

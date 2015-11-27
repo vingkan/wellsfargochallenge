@@ -1,45 +1,18 @@
-function WordMap(){
-	this.map = [];
-	this.map.push({
-		word: 'sample',
-		count: 0
-	});
-}
-
-WordMap.prototype.hasWord = function(search){
-	var index = -1;
-	var size = this.map.length;
-	for(var w = 0; w < size; w++){
-		if(this.map[w].word === search){
-			index = w;
-			break;
+function getWordMap(dataset){
+	var wordMap = new WordMap();
+	var size = dataset.length;
+	for(var d = 0; d < 10; d++){
+		var words = dataset[d].text.split(" ");
+		var numOfWords = words.length;
+		//console.log(words);
+		for(var w = 0; w < numOfWords; w++){
+			wordMap.add(words[w]);
 		}
 	}
-	return index;
+	return wordMap;
 }
 
-WordMap.prototype.addNewWord = function(newWord){
-	this.map.push({
-		word: newWord,
-		count: 1
-	});
-}
-
-WordMap.prototype.countWord = function(thisWord){
-	var index = this.hasWord(thisWord);
-	this.map[index].count++;
-}
-
-WordMap.prototype.add = function(thisWord){
-	var index = this.hasWord(thisWord);
-	if(index < 0){
-		this.addNewWord(thisWord);
-	}
-	else{
-		this.countWord(thisWord);
-	}
-}
-
-var wordMap = new WordMap();
+var results = getWordMap(testData);
+console.log(results);
 
 console.log("LOADED summary.js");
