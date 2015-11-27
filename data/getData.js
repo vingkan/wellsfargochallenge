@@ -9,10 +9,30 @@ function getRandomDataArray(storage, size, id, dataCallback){
 		var lines = data.split("\n");
 		var fileSize = lines.length;
 		var randomIndex;
+		var usedIndexes = [];
 
 		//console.log('started');
 		for(var i = 0; i < size; i++){
-			randomIndex = Math.floor(Math.random() * (fileSize - 1));
+
+			//Ensures that each new data sample is unique
+			var newIndex = false;
+			while(!newIndex){
+				var found = false;
+				randomIndex = Math.floor(Math.random() * (fileSize - 1));
+				var numUsed = usedIndexes.length;
+				for(var u = 0; u < numUsed; u++){
+					if(usedIndexes[u] === randomIndex){
+						found = true;
+						//console.log('already used ' + randomIndex)
+						break;
+					}
+				}
+				if(!found){
+					newIndex = true;
+				}
+			}
+			usedIndexes.push(randomIndex);
+
 			var values = lines[randomIndex].split("|");
 			var json = {
 				id: values[0],
@@ -22,9 +42,9 @@ function getRandomDataArray(storage, size, id, dataCallback){
 				source: values[4],
 				text: values[5]
 			}
-			//var stringified = JSON.stringify(json);
 			response.push(json);
 			//console.log(i);
+
 		}
 		//console.log('ended');
 
