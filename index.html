@@ -35,14 +35,16 @@
 			//var wordMap = new WordMap();
 
 			var testData;
+			var blackListedWords = ['to', 'the', 'in', 'of', 'is', '&', 'a', 'it', 'i', 'who', 'you', 'your', 'and'];
+			var wordMap = new WordMap(blackListedWords);
 
 			function testDataAnalysis(dataset){
-				var wordMap = getWordMap(dataset);
+				wordMap = getWordMap(dataset, wordMap);
 				wordMap.getTopResults(10);
 			}
 
 			var storage = new Storage();
-			getRandomDataArray(storage, 10000, 'sample', testDataAnalysis);
+			getRandomDataArray(storage, 50000, 'sample', testDataAnalysis);
 
 			/*var size = testData.length; 
 			for(var f = 0; f < size; f++){

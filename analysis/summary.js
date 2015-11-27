@@ -1,5 +1,5 @@
-function getWordMap(dataset){
-	var wordMap = new WordMap();
+function getWordMap(dataset, thisWordMap){
+	var wordMap = thisWordMap || new WordMap();
 	var size = dataset.length;
 	for(var d = 0; d < 10; d++){
 		var words = dataset[d].text.split(" ");
