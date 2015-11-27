@@ -39,7 +39,3 @@ WordMap.prototype.add = function(thisWord){
 		this.countWord(thisWord);
 	}
 }
-
-var wordMap = new WordMap();
-
-console.log("LOADED summary.js");
