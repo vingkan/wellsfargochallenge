@@ -25,7 +25,7 @@
 		<script type="text/javascript" src="utils/storage.js"></script>
 		<script type="text/javascript" src="utils/wordMap.js"></script>
 		<script type="text/javascript" src="data/getData.js"></script>
-		<script type="text/javascript" src="data/stringified.js"></script>
+		<!--<script type="text/javascript" src="data/stringified.js"></script>-->
 		<script type="text/javascript" src="analysis/summary.js"></script>
 		<!-- ______________ -->
 
@@ -34,14 +34,33 @@
 			//var testData = {json data initialized in data/stringified.js};
 			//var wordMap = new WordMap();
 
-			var testData;
-			var ignoreThese = ['to', 'the', 'in', 'of', 'is', '&', 'a', 'it', 'i', 'who', 'you', 'your', 'and', 'will', 'for', 'be', 'with', 'they', 'we', 'are', 'on', 'at', 'what', 'me', 'too', 'in', 'for', 'an', 'for', 'their', 'when', 'its', 'my', 'from', 'have', 'had', 'this', 'or', 'if', 'was', 'by', 'has', 'as', 'do', 'would', 'dont', 'there', 'oh', 'didnt', 'wasnt'];
+			//var testData;
+			var ignoreThese = ['to', 'the', 'in', 'of', 'is', '&', 'a', 'it', 'i', 'who', 'you', 'your', 'and', 'will', 'for', 'be', 'with', 'they', 'we', 'are', 'on', 'at', 'what', 'me', 'too', 'in', 'for', 'an', 'for', 'their', 'when', 'its', 'my', 'from', 'have', 'had', 'this', 'or', 'if', 'was', 'by', 'has', 'as', 'do', 'would', 'dont', 'there', 'oh', 'didnt', 'wasnt', 'were', 'should', 'used'];
 			var wordMap = new WordMap(ignoreThese);
 
 			function testDataAnalysis(dataset){
+				//WORD MAP ANALYSIS
 				wordMap = getWordMap(dataset, wordMap);
 				topResults = false;
-				wordMap.getResults('ALL', topResults);
+				//wordMap.getResults(10, topResults);
+				//WORD UNIQUENESS ANALYSIS
+				var sample = dataset[50];
+				console.log(sample);
+				console.log('Text: ' + sample.text);
+				var frequencyMap = new WordMap();
+				var words = sample.text.split(" ");
+				var size = words.length;
+				for(var w = 0; w < size; w++){
+					var frequency = wordMap.getFrequency(words[w]);
+					if(frequency > 0){
+						//console.log(words[w] + ': ' + frequency.toFixed(5));
+						frequencyMap.map.push({
+							word: words[w],
+							count: frequency
+						});
+					}
+				}
+				frequencyMap.getResults(3, false);
 			}
 
 			var storage = new Storage();

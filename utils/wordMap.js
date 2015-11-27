@@ -135,3 +135,18 @@ WordMap.prototype.isIgnored = function(thisWord){
 	}
 	return response;
 }
+
+WordMap.prototype.getFrequency = function(thisWord){
+	var frequency = 0.0;
+	var cleanWord = this.cleanseWord(thisWord);
+	var index = this.hasWord(cleanWord);
+	if(index < 0){
+		//Do Nothing
+	}
+	else{
+		var wordCount = this.map[index].count;
+		frequency = wordCount / this.totalWords;
+		//console.log(wordCount + ' / ' + this.totalWords + ' = ' + frequency);
+	}
+	return frequency;
+}
