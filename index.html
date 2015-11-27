@@ -40,7 +40,8 @@
 
 			function testDataAnalysis(dataset){
 				wordMap = getWordMap(dataset, wordMap);
-				wordMap.getResults(10, false);
+				topResults = false;
+				wordMap.getResults(10, topResults);
 			}
 
 			var storage = new Storage();

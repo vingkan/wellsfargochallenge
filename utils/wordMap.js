@@ -1,10 +1,19 @@
 function WordMap(blackListedWords){
 	this.map = [];
-	this.map.push({
+	//To Show Format of Entries
+	/*this.map.push({
 		word: 'sample',
 		count: 0
-	});
+	});*/
 	this.blackList = blackListedWords || [];
+}
+
+WordMap.prototype.cleanseWord = function(thisWord){
+	var response = thisWord;
+	response.toLowerCase();
+	/*response.replace(/\./g, '');
+	response.replace(/\#/g, '');*/
+	return response;
 }
 
 WordMap.prototype.hasWord = function(search){
@@ -32,13 +41,14 @@ WordMap.prototype.countWord = function(thisWord){
 }
 
 WordMap.prototype.add = function(thisWord){
-	var index = this.hasWord(thisWord);
-	if(!this.isBlackListed(thisWord)){
+	var cleanWord = this.cleanseWord(thisWord);
+	var index = this.hasWord(cleanWord);
+	if(!this.isBlackListed(cleanWord)){
 		if(index < 0){
-			this.addNewWord(thisWord);
+			this.addNewWord(cleanWord);
 		}
 		else{
-			this.countWord(thisWord);
+			this.countWord(cleanWord);
 		}
 	}
 	else{
