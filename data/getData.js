@@ -1,4 +1,4 @@
-function getRandomDataArray(storage, size, id){
+function getRandomDataArray(storage, size, id, dataCallback){
 	
 	var fileURL = 'https://c7bc5a3a1eec525091f717ca9c0611b2d48ebf9f-www.googledrive.com/host/0B5EZCXdq2crRbG94TGhuNk1tcU0';
 	var response = [];
@@ -34,6 +34,8 @@ function getRandomDataArray(storage, size, id){
 		}
 		storage.add(toStorage);
 		console.log('Added to storage with ID: ' + id);
+		//Runs callback function with data;
+		dataCallback(storage.get(id));
 
 	});
 

@@ -33,7 +33,16 @@
 
 			//var testData = {json data initialized in data/stringified.js};
 			//var wordMap = new WordMap();
+
+			var testData;
+
+			function testDataAnalysis(dataset){
+				var wordMap = getWordMap(dataset);
+				wordMap.getTopResults(10);
+			}
+
 			var storage = new Storage();
+			getRandomDataArray(storage, 10000, 'sample', testDataAnalysis);
 
 			/*var size = testData.length; 
 			for(var f = 0; f < size; f++){
