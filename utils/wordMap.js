@@ -6,11 +6,18 @@ function WordMap(blackListedWords){
 		count: 0
 	});*/
 	this.blackList = blackListedWords || [];
+	this.blackListedCatches = 0;
 }
 
 WordMap.prototype.cleanseWord = function(thisWord){
 	var response = thisWord;
 	response.toLowerCase();
+	if(response.charAt(response.length-1) === '.' || response.charAt(response.length-1) === '#' ){
+		console.log('Change: ' + response);
+		response = response.substr(0, response.length - 1);
+		console.log('To: ' + response);
+
+	}
 	/*response.replace(/\./g, '');
 	response.replace(/\#/g, '');*/
 	return response;
@@ -52,6 +59,7 @@ WordMap.prototype.add = function(thisWord){
 		}
 	}
 	else{
+		this.blackListedCatches++;
 		//console.log('Caught blacklisted word: ' + thisWord);
 	}
 }
@@ -78,12 +86,16 @@ WordMap.prototype.sort = function(descending){
 }
 
 WordMap.prototype.getResults = function(size, topResults){
+	if(size === 'ALL'){
+		size = this.map.length;
+	}
 	this.sort(topResults);
 	var result;
 	for(var w = 0; w < size; w++){
 		result = this.get(w);
-		console.log(w + '. ' + result.word + ' (' + result.count + ')');
+		console.log((w+1) + '. ' + result.word + ' (' + result.count + ')');
 	}
+	console.log('Caught ' + this.blackListedCatches + ' black-listed words.');
 }
 
 WordMap.prototype.addBlackListedWord = function(badWord){

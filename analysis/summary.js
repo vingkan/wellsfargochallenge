@@ -12,7 +12,7 @@ function getWordMap(dataset, thisWordMap){
 	return wordMap;
 }
 
-var results = getWordMap(testData);
-console.log(results);
+/*var results = getWordMap(testData);
+console.log(results);*/
 
 console.log("LOADED summary.js");
