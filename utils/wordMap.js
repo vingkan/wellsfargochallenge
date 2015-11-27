@@ -1,25 +1,21 @@
-function WordMap(blackListedWords){
+function WordMap(ignoredWords){
 	this.map = [];
 	//To Show Format of Entries
 	/*this.map.push({
 		word: 'sample',
 		count: 0
 	});*/
-	this.blackList = blackListedWords || [];
-	this.blackListedCatches = 0;
+	this.ignored = ignoredWords || [];
+	this.ignoredCatches = 0;
 }
 
 WordMap.prototype.cleanseWord = function(thisWord){
 	var response = thisWord;
-	response.toLowerCase();
-	if(response.charAt(response.length-1) === '.' || response.charAt(response.length-1) === '#' ){
-		console.log('Change: ' + response);
+	response = response.toLowerCase();
+	var lastChar = response.charAt(response.length-1);
+	if(lastChar === '.' || lastChar === '#' || lastChar === ':' || lastChar === ',' || lastChar === '/' || lastChar === '-'){
 		response = response.substr(0, response.length - 1);
-		console.log('To: ' + response);
-
 	}
-	/*response.replace(/\./g, '');
-	response.replace(/\#/g, '');*/
 	return response;
 }
 
@@ -50,7 +46,7 @@ WordMap.prototype.countWord = function(thisWord){
 WordMap.prototype.add = function(thisWord){
 	var cleanWord = this.cleanseWord(thisWord);
 	var index = this.hasWord(cleanWord);
-	if(!this.isBlackListed(cleanWord)){
+	if(!this.isIgnored(cleanWord)){
 		if(index < 0){
 			this.addNewWord(cleanWord);
 		}
@@ -59,8 +55,8 @@ WordMap.prototype.add = function(thisWord){
 		}
 	}
 	else{
-		this.blackListedCatches++;
-		//console.log('Caught blacklisted word: ' + thisWord);
+		this.ignoredCatches++;
+		//console.log('Caught ignored word: ' + thisWord);
 	}
 }
 
@@ -95,11 +91,11 @@ WordMap.prototype.getResults = function(size, topResults){
 		result = this.get(w);
 		console.log((w+1) + '. ' + result.word + ' (' + result.count + ')');
 	}
-	console.log('Caught ' + this.blackListedCatches + ' black-listed words.');
+	console.log('Caught ' + this.ignoredCatches + ' ignored words.');
 }
 
-WordMap.prototype.addBlackListedWord = function(badWord){
-	this.blackList.push(badWord);
+WordMap.prototype.addIgnoredWord = function(badWord){
+	this.ignored.push(badWord);
 	var index = this.hasWord(badWord);
 	if(index < 0){
 		//Do nothing
@@ -109,11 +105,11 @@ WordMap.prototype.addBlackListedWord = function(badWord){
 	}
 }
 
-WordMap.prototype.isBlackListed = function(thisWord){
+WordMap.prototype.isIgnored = function(thisWord){
 	var response = false;
-	var size = this.blackList.length;
+	var size = this.ignored.length;
 	for(var b = 0; b < size; b++){
-		if(this.blackList[b] === thisWord){
+		if(this.ignored[b] === thisWord){
 			response = true;
 			break;
 		}
