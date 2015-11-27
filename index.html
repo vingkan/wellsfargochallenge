@@ -29,6 +29,26 @@
 		<script type="text/javascript" src="analysis/summary.js"></script>
 		<!-- ______________ -->
 
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+
+<script type="text/javascript">
+google.load('visualization', '1');
+google.setOnLoadCallback(queryInit);
+
+function queryInit(){
+var url = 'http://www.google.com/trends/hottrends/hotItems?ajax=1&pn=p1&htv=m'
+var query = new google.visualization.Query(url)
+	query.send(handleQueryResponse);
+}
+
+function handleQueryResponse(response) {
+	console.log('RESPONSE')
+console.log(response);
+}
+
+</script>
+
 		<script type="text/javascript">
 
 			//var testData = {json data initialized in data/stringified.js};
@@ -64,13 +84,13 @@
 			}
 
 			var storage = new Storage();
-			getRandomDataArray(storage, 100, 'sample', testDataAnalysis);
+			//getRandomDataArray(storage, 100, 'sample', testDataAnalysis);
 
 			//CURL TRIALS
 
 			/*$.ajax({
-				url: 'http://www.google.com/trends/topcharts/category',
-				data: 'ajax=1&geo=US&date=201310',
+				url: 'http://www.google.com/trends/fetchComponent?q=asdf,qwerty&cid=TIMESERIES_GRAPH_0&export=3',
+				//data: 'ajax=1&geo=US&date=201310',
 				type: 'POST',
 				beforeSend: function(xhr){
 					//xhr.setRequestHeader("Authorization", "Bearer 4242");
