@@ -1,5 +1,6 @@
 function WordMap(ignoredWords){
 	this.map = [];
+	this.totalWords = 0;
 	//To Show Format of Entries
 	/*this.map.push({
 		word: 'sample',
@@ -12,10 +13,26 @@ function WordMap(ignoredWords){
 WordMap.prototype.cleanseWord = function(thisWord){
 	var response = thisWord;
 	response = response.toLowerCase();
-	var lastChar = response.charAt(response.length-1);
-	if(lastChar === '.' || lastChar === '#' || lastChar === ':' || lastChar === ',' || lastChar === '/' || lastChar === '-'){
-		response = response.substr(0, response.length - 1);
-	}
+	//ELIMINATE CHARACTERS AT LAST CHARACTER
+		/*var lastChar = response.charAt(response.length-1);
+		if(lastChar === '.' || lastChar === '#' || lastChar === ':' || lastChar === ',' || lastChar === '/' || lastChar === '-'){
+			response = response.substr(0, response.length - 1);
+		}*/
+	//ELIMINATE CHARACTERS GLOBALLY BY REGEX
+	response = response.replace(/\./g, '');
+	response = response.replace(/\#/g, '');
+	response = response.replace(/\*/g, '');
+	response = response.replace(/\:/g, '');
+	response = response.replace(/\;/g, '');
+	response = response.replace(/\,/g, '');
+	response = response.replace(/\//g, '');
+	response = response.replace(/\-/g, '');
+	response = response.replace(/\!/g, '');
+	response = response.replace(/\?/g, '');
+	response = response.replace(/\(/g, '');
+	response = response.replace(/\)/g, '');
+	response = response.replace(/\[/g, '');
+	response = response.replace(/\]/g, '');
 	return response;
 }
 
@@ -58,6 +75,7 @@ WordMap.prototype.add = function(thisWord){
 		this.ignoredCatches++;
 		//console.log('Caught ignored word: ' + thisWord);
 	}
+	this.totalWords++;
 }
 
 WordMap.prototype.get = function(index){
@@ -92,6 +110,7 @@ WordMap.prototype.getResults = function(size, topResults){
 		console.log((w+1) + '. ' + result.word + ' (' + result.count + ')');
 	}
 	console.log('Caught ' + this.ignoredCatches + ' ignored words.');
+	console.log('Total Words Analyzed: ' + this.totalWords);
 }
 
 WordMap.prototype.addIgnoredWord = function(badWord){
