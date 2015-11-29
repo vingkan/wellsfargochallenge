@@ -12,6 +12,8 @@ function testDataAnalysis(dataset){
 	//baselineWordMap.getResults(10, topResults);
 	//WORD UNIQUENESS ANALYSIS
 	var sample = dataset[50];
+		//Display on HTML Page
+		sample.toHTML('current-sample');
 	console.log(sample);
 	console.log('Text: ' + sample.text);
 	var frequencyMap = new WordMap();
