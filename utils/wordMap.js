@@ -37,7 +37,8 @@ WordMap.prototype.cleanseWord = function(thisWord){
 	return response;
 }
 
-WordMap.prototype.hasWord = function(search){
+WordMap.prototype.hasWord = function(searchFor){
+	var search = this.cleanseWord(searchFor);
 	var index = -1;
 	var size = this.map.length;
 	for(var w = 0; w < size; w++){
@@ -63,20 +64,22 @@ WordMap.prototype.countWord = function(thisWord){
 
 WordMap.prototype.add = function(thisWord){
 	var cleanWord = this.cleanseWord(thisWord);
-	var index = this.hasWord(cleanWord);
-	if(!this.isIgnored(cleanWord)){
-		if(index < 0){
-			this.addNewWord(cleanWord);
+	if(cleanWord.length > 0){
+		var index = this.hasWord(cleanWord);
+		if(!this.isIgnored(cleanWord)){
+			if(index < 0){
+				this.addNewWord(cleanWord);
+			}
+			else{
+				this.countWord(cleanWord);
+			}
 		}
 		else{
-			this.countWord(cleanWord);
+			this.ignoredCatches++;
+			//console.log('Caught ignored word: ' + thisWord);
 		}
+		this.totalWords++;
 	}
-	else{
-		this.ignoredCatches++;
-		//console.log('Caught ignored word: ' + thisWord);
-	}
-	this.totalWords++;
 }
 
 WordMap.prototype.get = function(index){
@@ -101,6 +104,12 @@ WordMap.prototype.sort = function(descending){
 }
 
 WordMap.prototype.getResults = function(size, topResults){
+	if(topResults){
+		console.log('Most Frequent Results:');
+	}
+	else{
+		console.log('Least Frequent Results:');
+	}
 	if(size === 'ALL'){
 		size = this.map.length;
 	}
@@ -150,4 +159,27 @@ WordMap.prototype.getFrequency = function(thisWord){
 		//console.log(wordCount + ' / ' + this.totalWords + ' = ' + frequency);
 	}
 	return frequency;
+}
+
+WordMap.prototype.getFrequencyMap = function(wordList){
+	var frequencyMap = new WordMap();
+	var size = wordList.length;
+	var currentWord = '';
+	for(var w = 0; w < size; w++){
+		currentWord = this.cleanseWord(wordList[w]);
+		var frequency = this.getFrequency(currentWord);
+		if(
+			frequency > 0 &&
+			frequencyMap.hasWord(currentWord) === -1 &&
+			!this.isIgnored(currentWord) &&
+			currentWord.length > 0
+		){
+			//console.log('adding: "' + currentWord + '"');
+			frequencyMap.map.push({
+				word: this.cleanseWord(currentWord),
+				count: frequency
+			});
+		}
+	}
+	return frequencyMap;
 }

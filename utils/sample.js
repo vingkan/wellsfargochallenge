@@ -5,11 +5,12 @@ function Sample(textLine, topicOverride){
 	this.year = values[2];
 	this.month = values[3];
 	this.source = values[4];
+	var sampleText = preParseText(values[5]);
 	if(this.source === 'twitter'){
-		this.text = parseTwitterText(values[5]);
+		this.text = parseTwitterText(sampleText);
 	}
 	else{
-		this.text = values[5];
+		this.text = sampleText;
 	}
 	this.topic = topicOverride || 'NO-TOPIC';
 }
