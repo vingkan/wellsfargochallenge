@@ -5,6 +5,49 @@ function Sample(textLine, topicOverride){
 	this.year = values[2];
 	this.month = values[3];
 	this.source = values[4];
-	this.text = values[5];
+	if(this.source === 'twitter'){
+		this.text = parseTwitterText(values[5]);
+	}
+	else{
+		this.text = values[5];
+	}
 	this.topic = topicOverride || 'NO-TOPIC';
+}
+
+Sample.prototype.toHTML = function(targetID){
+	var html = '';
+	html += '<div class="social-media-sample">';
+	html += this.text;
+	html += '</div>';
+	if(targetID){
+		var output = document.getElementById(targetID);
+		output.innerHTML += html;
+	}
+	else{
+		return html;
+	}
+}
+
+function parseTwitterText(input){
+	var output = '';
+	var words = input.split(' ');
+	var size = words.length;
+	var nextWord = '';
+	var nextIsHashtag = false;
+	for(var w = 0; w < size; w++){
+		nextWord = words[w];
+		var lastChar = words[w].charAt(words[w].length - 1);
+		if(lastChar === '#'){
+			nextIsHashtag = true;
+			nextWord = words[w].substr(0, words[w].length - 1);
+			//console.log('Parsed: ' + words[w] + ' --> ' + nextWord);
+		}
+		if(nextIsHashtag){
+			nextWord = '#' + nextWord;
+			nextIsHashtag = false;
+			//console.log('Hashtagged: ' + nextWord);
+		}
+		output += nextWord + ' ';
+	}
+	return output;
 }
