@@ -19,6 +19,7 @@ WordMap.prototype.cleanseWord = function(thisWord){
 			response = response.substr(0, response.length - 1);
 		}*/
 	//ELIMINATE CHARACTERS GLOBALLY BY REGEX
+	response = response.replace(/\ /g, '');
 	response = response.replace(/\./g, '');
 	response = response.replace(/\#/g, '');
 	response = response.replace(/\*/g, '');

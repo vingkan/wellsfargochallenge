@@ -14,6 +14,10 @@ function Sample(textLine, topicOverride){
 	this.topic = topicOverride || 'NO-TOPIC';
 }
 
+Sample.prototype.compare = function(otherSample){
+
+}
+
 Sample.prototype.toHTML = function(targetID){
 	var html = '';
 	html += '<div class="social-media-sample">';
@@ -26,6 +30,13 @@ Sample.prototype.toHTML = function(targetID){
 	else{
 		return html;
 	}
+}
+
+function preParseText(input){
+	var output = input;
+	output = output.replace(/\(/g, ' ');
+	output = output.replace(/\)/g, ' ');
+	return output;
 }
 
 function parseTwitterText(input){
