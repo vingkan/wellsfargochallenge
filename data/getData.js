@@ -33,7 +33,8 @@ function getRandomDataArray(storage, size, id, dataCallback){
 			}
 			usedIndexes.push(randomIndex);
 
-			var values = lines[randomIndex].split("|");
+			//OLD JSON CONSTRUCTION
+			/*var values = lines[randomIndex].split("|");
 			var json = {
 				id: values[0],
 				date: values[1],
@@ -42,7 +43,11 @@ function getRandomDataArray(storage, size, id, dataCallback){
 				source: values[4],
 				text: values[5]
 			}
-			response.push(json);
+			response.push(json);*/
+
+			//NEW OBJECT CONSTRUCTION
+			response.push(new Sample(lines[randomIndex]));
+
 			//console.log(i);
 
 		}
