@@ -4,7 +4,13 @@ Repository for the Wells Fargo Data Analytics Challenge.
 # Approach
 
 ## Steps
-* Generate a baseline of the frequency of key words
+* Create a list of words to ignore during analysis
+* Populate a word map with all other words and their number of occurrences
+* Generate a baseline for the frequency of key words from the word map
+* Give each social media sample an "intermediate" classification based on the word from the sample with the lowest baseline frequency
+* Create a word map for each sample
+* Run group analysis
+* Decision tree to determine treshold for word frequency
 
 # Roaming Thoughts
 * How might we determine the topic of a social media item without using words that were not in it?
