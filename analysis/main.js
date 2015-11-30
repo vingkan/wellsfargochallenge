@@ -11,7 +11,7 @@ var baselineWordMap = new WordMap(BLACK_LIST);
 
 var TARGET_SAMPLE = null;
 
-getRandomDataArray(storage, 10, 'sample', testDataAnalysis);
+getRandomDataArray(storage, 100, 'sample', testDataAnalysis);
 
 function testDataAnalysis(dataset){
 
@@ -23,9 +23,9 @@ function testDataAnalysis(dataset){
 	//WORD UNIQUENESS ANALYSIS
 	var sample1 = dataset[2];
 	//Display on HTML Page
-	/*sample1.toHTML('current-sample', {
+	sample1.toHTML('current-sample', {
 		keywords: baselineWordMap.getNonIgnoredWords(sample1)
-	});*/
+	});
 	//Display in Console
 	//console.log(sample1);
 

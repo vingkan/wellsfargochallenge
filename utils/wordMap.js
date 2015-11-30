@@ -11,7 +11,7 @@ function WordMap(ignoredWords){
 }
 
 function cleanseWord(dirty){
-	var clean = dirty;
+	var clean = dirty.trim();
 	clean = clean.toLowerCase();
 	clean = clean.replace(/\ /g, '');
 	clean = clean.replace(/\./g, '');
