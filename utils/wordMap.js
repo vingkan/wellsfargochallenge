@@ -10,31 +10,29 @@ function WordMap(ignoredWords){
 	this.ignoredCatches = 0;
 }
 
+function cleanseWord(dirty){
+	var clean = dirty;
+	clean = clean.toLowerCase();
+	clean = clean.replace(/\ /g, '');
+	clean = clean.replace(/\./g, '');
+	clean = clean.replace(/\#/g, '');
+	clean = clean.replace(/\*/g, '');
+	clean = clean.replace(/\:/g, '');
+	clean = clean.replace(/\;/g, '');
+	clean = clean.replace(/\,/g, '');
+	clean = clean.replace(/\//g, '');
+	clean = clean.replace(/\-/g, '');
+	clean = clean.replace(/\!/g, '');
+	clean = clean.replace(/\?/g, '');
+	clean = clean.replace(/\(/g, '');
+	clean = clean.replace(/\)/g, '');
+	clean = clean.replace(/\[/g, '');
+	clean = clean.replace(/\]/g, '');
+	return clean;
+}
+
 WordMap.prototype.cleanseWord = function(thisWord){
-	var response = thisWord;
-	response = response.toLowerCase();
-	//ELIMINATE CHARACTERS AT LAST CHARACTER
-		/*var lastChar = response.charAt(response.length-1);
-		if(lastChar === '.' || lastChar === '#' || lastChar === ':' || lastChar === ',' || lastChar === '/' || lastChar === '-'){
-			response = response.substr(0, response.length - 1);
-		}*/
-	//ELIMINATE CHARACTERS GLOBALLY BY REGEX
-	response = response.replace(/\ /g, '');
-	response = response.replace(/\./g, '');
-	response = response.replace(/\#/g, '');
-	response = response.replace(/\*/g, '');
-	response = response.replace(/\:/g, '');
-	response = response.replace(/\;/g, '');
-	response = response.replace(/\,/g, '');
-	response = response.replace(/\//g, '');
-	response = response.replace(/\-/g, '');
-	response = response.replace(/\!/g, '');
-	response = response.replace(/\?/g, '');
-	response = response.replace(/\(/g, '');
-	response = response.replace(/\)/g, '');
-	response = response.replace(/\[/g, '');
-	response = response.replace(/\]/g, '');
-	return response;
+	return cleanseWord(thisWord);
 }
 
 WordMap.prototype.hasWord = function(searchFor){

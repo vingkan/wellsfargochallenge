@@ -15,8 +15,17 @@ function Sample(textLine, topicOverride){
 	this.topic = topicOverride || 'NO-TOPIC';
 }
 
-Sample.prototype.compare = function(otherSample){
-
+Sample.prototype.getNonIgnoredWords = function(otherSample){
+	var response = [];
+	var thisText = this.text.split(" ");
+	var textSize = thisText.length;
+	var currentWord = '';
+	for(var t = 0; t < textSize; t++){
+		currentWord = 
+		if(!isIgnored(thisText[t])){
+			response.push(thisText[t]);
+		}
+	}
 }
 
 Sample.prototype.toHTML = function(targetID){
