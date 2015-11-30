@@ -39,6 +39,18 @@ function checkPair(list, id1, id2){
 	return foundPair;
 }
 
+function getSampleById(list, id){
+	var index = -1;
+	var size = list.length;
+	for(var i = 0; i < size; i++){
+		if(list[i].id === id){
+			index = i;
+			break;
+		}
+	}
+	return index;
+}
+
 /*var results = getWordMap(testData);
 console.log(results);*/
 

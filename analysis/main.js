@@ -11,7 +11,9 @@ var baselineWordMap = new WordMap(BLACK_LIST);
 
 var TARGET_SAMPLE = null;
 
-getRandomDataArray(storage, 100, 'sample', testDataAnalysis);
+var DATASET_SIZE = 100;
+
+getRandomDataArray(storage, DATASET_SIZE, 'sample', testDataAnalysis);
 
 function testDataAnalysis(dataset){
 
@@ -23,14 +25,14 @@ function testDataAnalysis(dataset){
 	//WORD UNIQUENESS ANALYSIS
 	var sample1 = dataset[2];
 	//Display on HTML Page
-	sample1.toHTML('current-sample', {
+	/*sample1.toHTML('current-sample', {
 		keywords: baselineWordMap.getNonIgnoredWords(sample1)
-	});
+	});*/
 	//Display in Console
 	//console.log(sample1);
 
 	//FREQUENCY MAP ANALYSIS
-	var wordList = sample1.text.split(' ');
+	//var wordList = sample1.text.split(' ');
 	/*var frequencyMap = baselineWordMap.getFrequencyMap(wordList);
 	console.log(frequencyMap);
 	frequencyMap.getResults(3, false);
@@ -43,19 +45,20 @@ function testDataAnalysis(dataset){
 	//getRandomDataArray(storage, 1000, 'comparisons', comparisonAnalysis);
 
 	//comparisonAnalysis(dataset);
-	groupingAnalysis(dataset);
+	comparisonAnalysis(dataset);
 
 }
 
-function groupingAnalysis(dataset){
+function comparisonAnalysis(dataset){
 
 	console.log('start')
 
-	var size = dataset.length;
+	var size = DATASET_SIZE;
 	var comparables = [];
 
 	for(var s = 0; s < size; s++){
 		dataset[s].keywords = baselineWordMap.getNonIgnoredWords(dataset[s]);
+		dataset[s].mappings = [];
 	}
 	console.log('***Created all getNonIgnoredWords Lists');
 
@@ -73,6 +76,14 @@ function groupingAnalysis(dataset){
 						samples: [dataset[a], dataset[b]],
 						score: score
 					});
+					dataset[a].mappings.push({
+						id: dataset[b].id,
+						score: score
+					});
+					dataset[b].mappings.push({
+						id: dataset[a].id,
+						score: score
+					});
 				}
 			}
 		}
@@ -85,6 +96,7 @@ function groupingAnalysis(dataset){
 			return b.score - a.score;
 		});
 		var maxScore = comparables[0].score;
+		var maxScoreIndex = comparables[0].samples[0];
 
 		//console.log(comparables[0]);
 
@@ -117,11 +129,90 @@ function groupingAnalysis(dataset){
 		console.log('No comparable samples found in dataset.');
 	}
 
-	console.log('FINISHED GROUPING ANALYSIS')
+	console.log('FINISHED COMPARISON ANALYSIS');
+
+	groupingAnalysis(dataset, maxScoreIndex);
 
 }
 
-function comparisonAnalysis(dataset){
+function groupingAnalysis(dataset, maxScoreIndex){
+
+	console.log(dataset);
+
+	for(var d = 0; d < DATASET_SIZE; d++){
+		if(dataset[d].mappings.length > 0){
+			dataset[d].mappings.sort(function(a, b){
+				return b.score - a.score;
+			});
+
+			dataset[d].pairing = {
+				id: dataset[d].mappings[0].id,
+				mutual: false,
+				chained: [dataset[d].mappings[0].id]
+			}
+		}
+		else{
+			dataset[d].pairing = {
+				id: 'NO_PAIRING',
+				mutual: false,
+				chained: []
+			}
+		}
+	}
+
+	//var mutualCheckList = dataset.slice();
+	for(var d = 0; d < DATASET_SIZE; d++){
+		var pairID = dataset[d].pairing.id;
+		if(pairID != 'NO_PAIRING'){
+			var mateIndex = getSampleById(dataset, pairID);
+			var mate = dataset[mateIndex];
+			if(mate.pairing.id === dataset[d].id){
+				dataset[d].pairing.mutual = true;
+				mate.pairing.mutual = true;
+			}
+			else{
+				mate.pairing.chained.push(dataset[d].id);
+			}
+		}
+	}
+
+	var nodes = [];
+	var chains = [];
+
+	for(var d = 0; d < DATASET_SIZE; d++){
+		if(dataset[d].pairing.mutual){
+			//console.log(dataset[d].pairing.chained.length + ': ' + dataset[d].text);
+			nodes.push(dataset[d]);
+		}
+		else{
+			chains.push(dataset[d]);
+		}
+	}
+	console.log(nodes.length + ' / ' + chains.length);
+
+	var topics = [];
+
+	nodes.sort(function(a, b){
+		return b.pairing.chained.length - a.pairing.chained.length;
+	});
+	var numOfNodes = nodes.length;
+	for(var n = 0; n < nodes.length; n++){
+		console.log(nodes[n].id +' and ' + nodes[n].pairing.id + ' (chained: ' + nodes[n].pairing.chained.length + ')');
+		var pairIndex = getSampleById(nodes, nodes[n].pairing.id);
+		var mate = nodes[pairIndex];
+		var newTopic = new Topic(nodes[n]);
+		newTopic.addNode(mate);
+		nodes.splice(pairIndex, 1);
+		topics.push(newTopic);
+	}
+
+	console.log(topics);
+
+	console.log('FINISHED GROUPING ANALYSIS');
+
+}
+
+function comparisonTestAnalysis(dataset){
 
 	var comparables = [];
 
@@ -164,7 +255,7 @@ function comparisonAnalysis(dataset){
 		console.log('No comparable samples found in dataset.');
 	}
 
-	console.log('FINISHED COMPARISON ANALYSIS');
+	console.log('FINISHED TEST COMPARISON ANALYSIS');
 
 }
 
