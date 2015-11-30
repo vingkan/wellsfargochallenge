@@ -4,7 +4,7 @@
 
 var storage = new Storage();
 
-var IGNORE_THESE_WORDS = [' ', 'to', 'the', 'in', 'of', 'is', '&', 'a', 'it', 'i', 'who', 'you', 'your', 'and', 'will', 'for', 'be', 'with', 'they', 'we', 'are', 'on', 'at', 'what', 'me', 'too', 'in', 'for', 'an', 'for', 'their', 'when', 'its', 'my', 'from', 'have', 'had', 'this', 'or', 'if', 'was', 'by', 'has', 'as', 'do', 'would', 'dont', 'there', 'oh', 'didnt', 'wasnt', 'were', 'should', 'used', 'rt', 'youre', 'our', 'come', 'been', 'that', 'us'];
+var IGNORE_THESE_WORDS = [' ', 'to', 'the', 'in', 'of', 'is', '&', 'a', 'it', 'i', 'who', 'you', 'your', 'and', 'will', 'for', 'be', 'with', 'they', 'we', 'are', 'on', 'at', 'what', 'me', 'too', 'in', 'for', 'an', 'for', 'their', 'when', 'its', 'my', 'from', 'have', 'had', 'this', 'or', 'if', 'was', 'by', 'has', 'as', 'do', 'would', 'dont', 'there', 'oh', 'didnt', 'wasnt', 'were', 'should', 'used', 'rt', 'youre', 'our', 'come', 'been', 'that', 'us', 'so'];
 var TOPIC_WORDS = ['bank', 'banka', 'bankb', 'bankc', 'bankd', 'name', 'twit_hndl', 'ret_twit', 'name_resp', 'internet', 'twit_hndl_banka', 'twit_hndl_bankb', 'twit_hndl_bankc', 'twit_hndl_bankd'];
 var BLACK_LIST = IGNORE_THESE_WORDS.concat(TOPIC_WORDS);
 var baselineWordMap = new WordMap(BLACK_LIST);
@@ -60,17 +60,26 @@ function comparisonAnalysis(dataset){
 	}
 
 	//SORT CONTENDERS
-	var numOfContenders = comparables.length;
-	comparables.sort(function(a, b){
-		return b.score - a.score;
-	});
-	for(var c = 0; c < numOfContenders; c++){
-		console.log(dataset[s].id + ': ' + score.toFixed(5));
-		console.log(baselineWordMap.getMatches(TARGET_SAMPLE, dataset[s]));
-		dataset[s].toComparableHTML('comparable-samples', score.toFixed(5));
-		console.log(' ');
+	if(comparables.length > 0){
+		var numOfContenders = comparables.length;
+		comparables.sort(function(a, b){
+			return b.score - a.score;
+		});
+		var maxScore = comparables[0].score;
+		for(var c = 0; c < numOfContenders; c++){
+			var header = comparables[c].sample.id + ': ' + comparables[c].score.toFixed(5);
+			var matchesList = baselineWordMap.getMatches(TARGET_SAMPLE, comparables[c].sample);
+			comparables[c].sample.toComparableHTML('comparable-samples', {
+				score: comparables[c].score.toFixed(5),
+				opacity: (maxScore + comparables[c].score) / (2 * maxScore),
+				matches: matchesList
+			});
+			console.log(header + '\n' + matchesList + '\n');
+		}
 	}
-
+	else{
+		console.log('No comparable samples found in dataset.');
+	}
 
 	console.log('FINISHED COMPARISON ANALYSIS');
 

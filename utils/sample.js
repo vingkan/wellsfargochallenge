@@ -29,16 +29,21 @@ Sample.prototype.toHTML = function(targetID){
 	}
 }
 
-Sample.prototype.toComparableHTML = function(targetID, score){
+Sample.prototype.toComparableHTML = function(targetID, bonus){
 	var div = document.createElement('div');
 	var span = document.createElement('span');
-	var score = document.createTextNode(score);
+	var score = document.createTextNode(bonus.score);
 	span.appendChild(score);
 	div.appendChild(span);
 	var text = document.createTextNode(this.text);
 	div.appendChild(text);
+	var matches = document.createElement('div');
+	var list = document.createTextNode(bonus.matches);
+	matches.appendChild(list);
+	div.appendChild(matches);
 	div.classList.add('social-media-sample');
 	div.classList.add('sample-comparison');
+	div.style.opacity = bonus.opacity;
 	if(targetID){
 		var output = document.getElementById(targetID);
 		output.appendChild(div);
