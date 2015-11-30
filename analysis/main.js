@@ -11,7 +11,7 @@ var baselineWordMap = new WordMap(BLACK_LIST);
 
 var TARGET_SAMPLE = null;
 
-getRandomDataArray(storage, 100, 'sample', testDataAnalysis);
+getRandomDataArray(storage, 10, 'sample', testDataAnalysis);
 
 function testDataAnalysis(dataset){
 
@@ -49,10 +49,15 @@ function testDataAnalysis(dataset){
 
 function groupingAnalysis(dataset){
 
+	console.log('start')
+
 	var size = dataset.length;
 	var comparables = [];
 
 	for(var a = 0; a < size; a++){
+		if(a%10 === 0 ){
+			console.log(a)
+		}
 		for(var b = 0; b < size; b++){
 			if(dataset[a].id === dataset[b].id){
 				
@@ -107,6 +112,8 @@ function groupingAnalysis(dataset){
 	else{
 		console.log('No comparable samples found in dataset.');
 	}
+
+	console.log('FINISHED GROUPING ANALYSIS')
 
 }
 

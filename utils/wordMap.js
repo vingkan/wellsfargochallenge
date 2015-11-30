@@ -240,6 +240,9 @@ WordMap.prototype.getMatches = function(sample1, sample2){
 			//console.log('caught: ' + wordsList1[a]);
 		}
 	}
+	/*if(matches.length === 1 && matches[0].charAt(0) === 'i'){
+		console.log(matches + ': ' + this.isIgnored(matches[0]));
+	}*/
 	return matches;
 }
 
