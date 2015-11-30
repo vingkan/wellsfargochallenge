@@ -16,16 +16,35 @@ function Sample(textLine, topicOverride){
 }
 
 Sample.prototype.toHTML = function(targetID){
-	var html = '';
-	html += '<div class="social-media-sample">';
-	html += this.text;
-	html += '</div>';
+	var div = document.createElement('div');
+	var text = document.createTextNode(this.text);
+	div.appendChild(text);
+	div.classList.add('social-media-sample');
 	if(targetID){
 		var output = document.getElementById(targetID);
-		output.innerHTML += html;
+		output.appendChild(div);
 	}
 	else{
-		return html;
+		return div;
+	}
+}
+
+Sample.prototype.toComparableHTML = function(targetID, score){
+	var div = document.createElement('div');
+	var span = document.createElement('span');
+	var score = document.createTextNode(score);
+	span.appendChild(score);
+	div.appendChild(span);
+	var text = document.createTextNode(this.text);
+	div.appendChild(text);
+	div.classList.add('social-media-sample');
+	div.classList.add('sample-comparison');
+	if(targetID){
+		var output = document.getElementById(targetID);
+		output.appendChild(div);
+	}
+	else{
+		return div;
 	}
 }
 

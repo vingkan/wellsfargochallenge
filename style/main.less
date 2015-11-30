@@ -107,6 +107,34 @@ div.social-media-sample{
 	line-height: 1.5 * @textSize;
 }
 
+div.sample-comparison{
+
+	display: inline-block;
+	width: 35vw;
+	height: 10vw;
+	margin: 2.5vw;
+	padding: 2.5vw;
+	border-radius: 1vw;
+	font-size: 0.50 * @textSize;
+	line-height: 0.75 * @textSize;
+	overflow-y: scroll;
+
+	span{
+
+		color: @mainColor;
+		font-size: @textSize;
+		font-weight: bolder;
+
+		&::after{
+			content: ' ';
+		}
+
+	}
+
+}
+
+
+
 /*--------------------------------------------*/
 /*---> HEADER & FOOTER <----------------------*/
 /*--------------------------------------------*/

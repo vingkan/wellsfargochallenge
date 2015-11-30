@@ -23,10 +23,10 @@ function testDataAnalysis(dataset){
 	//WORD UNIQUENESS ANALYSIS
 	var sample1 = dataset[2];
 	var sample2 = dataset[7];
-		//Display on HTML Page
-		sample1.toHTML('current-sample');
+	//Display on HTML Page
+	sample1.toHTML('current-sample');
+	//Display in Console
 	console.log(sample1);
-	//console.log('Text: ' + sample1.text);
 
 	//FREQUENCY MAP ANALYSIS
 	var wordList = sample1.text.split(' ');
@@ -35,12 +35,9 @@ function testDataAnalysis(dataset){
 	frequencyMap.getResults(3, false);
 	frequencyMap.getResults(3, true);
 
-	//PAIRING PROCESS
-	console.log(baselineWordMap.getNonIgnoredWords(sample1));
-	console.log(baselineWordMap.getNonIgnoredWords(sample2));
-	console.log(baselineWordMap.getMatches(sample1, sample2));
-
 	TARGET_SAMPLE = sample1;
+
+	console.log('FINISHED BASELINE ANALYSIS');
 
 	getRandomDataArray(storage, 100, 'comparisons', comparisonAnalysis);
 
@@ -54,8 +51,12 @@ function comparisonAnalysis(dataset){
 		var score = baselineWordMap.compareSamples(TARGET_SAMPLE, dataset[s]);
 		if(score > 0){
 			console.log(dataset[s].id + ': ' + score.toFixed(5));
+			console.log(baselineWordMap.compareSamples(TARGET_SAMPLE, dataset[s]))
+			dataset[s].toComparableHTML('comparable-samples', score.toFixed(5));
 		}
 	}
+
+	console.log('FINISHED COMPARISON ANALYSIS');
 
 }
 
