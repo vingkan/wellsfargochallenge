@@ -11,7 +11,7 @@ var baselineWordMap = new WordMap(BLACK_LIST);
 
 var TARGET_SAMPLE = null;
 
-getRandomDataArray(storage, 10, 'sample', testDataAnalysis);
+getRandomDataArray(storage, 1000, 'sample', testDataAnalysis);
 
 function testDataAnalysis(dataset){
 
@@ -51,9 +51,9 @@ function comparisonAnalysis(dataset){
 	//LOOPING COMPARISONS
 	var size = dataset.length;
 	for(var s = 0; s < size; s++){
-		var matches = baselineWordMap.getMatches(TARGET_SAMPLE, dataset[s]);
-		if(matches.length > 0){
-			console.log(matches);
+		var score = baselineWordMap.compareSamples(TARGET_SAMPLE, dataset[s]);
+		if(score > 0){
+			console.log(dataset[s].id + ': ' + score.toFixed(5));
 		}
 	}
 

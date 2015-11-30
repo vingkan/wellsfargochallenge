@@ -238,11 +238,13 @@ WordMap.prototype.getMatches = function(sample1, sample2){
 WordMap.prototype.compareSamples = function(sample1, sample2){
 	var score = 0;
 	var matches = this.getMatches(sample1, sample2);
-	var size = 0;
+	var size = matches.length;
 	for(var m = 0; m < size; m++){
 		var frequency = this.getFrequency(matches[m]);
 		var inverseFrequency = Math.pow(frequency, -1);
-		console.log(frequency + '^-1 = ' + inverseFrequency);
+		//Just checking to be sure the math works
+		//console.log(frequency + '^-1 = ' + inverseFrequency);
+		score += inverseFrequency;
 	}
 	return score;
 }
