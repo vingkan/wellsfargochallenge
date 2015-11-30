@@ -148,14 +148,16 @@ function groupingAnalysis(dataset, maxScoreIndex){
 			dataset[d].pairing = {
 				id: dataset[d].mappings[0].id,
 				mutual: false,
-				chained: [dataset[d].mappings[0].id]
+				chained: [dataset[d].mappings[0].id],
+				score: dataset[d].mappings[0].score
 			}
 		}
 		else{
 			dataset[d].pairing = {
 				id: 'NO_PAIRING',
 				mutual: false,
-				chained: []
+				chained: [],
+				score: dataset[d].mappings[0].score
 			}
 		}
 	}
@@ -200,7 +202,7 @@ function groupingAnalysis(dataset, maxScoreIndex){
 		console.log(nodes[n].id +' and ' + nodes[n].pairing.id + ' (chained: ' + nodes[n].pairing.chained.length + ')');
 		var pairIndex = getSampleById(nodes, nodes[n].pairing.id);
 		var mate = nodes[pairIndex];
-		var newTopic = new Topic(nodes[n], baselineWordMap);
+		var newTopic = new Topic(nodes[n], baselineWordMap, nodes[n].pairing.score);
 		newTopic.addNode(mate);
 		nodes.splice(pairIndex, 1);
 		topics.push(newTopic);
@@ -229,10 +231,38 @@ function groupingAnalysis(dataset, maxScoreIndex){
 	}
 
 	for(var t = 0; t < numOfTopics; t++){
-		console.log('Topic: ' + topics[t].topic + ' (' + topics[t].nodes.length + ' nodes)', '\nHead: ' + topics[t].headNode.text);
+		console.log(
+			'Topic: ' + topics[t].topic + ' (' + topics[t].nodes.length + ' nodes)',
+			'\nHead: ' + topics[t].headNode.text,
+			'\nKeywords: ' + topics[t].getKeywords()
+		);
 	}
 
 	console.log('***Added chained nodes to topic areas.');
+
+	var topicPairsChecked = [];
+	for(var a = 0; a < numOfTopics; a++){
+		for(var b = 0; b < numOfTopics; b++){
+			var id1 = topics[a].headNode.id;
+			var id2 = topics[b].headNode.id;
+			if(id1 === id2 || checkPair(topicPairsChecked, id1, id2)){
+				//console.log('already evaluated: ' + id1 + ' and ' + id2);
+			}
+			else{
+				var sample1 = topics[a].getRepresentativeSample();
+				var sample2 = topics[b].getRepresentativeSample();
+				var score = baselineWordMap.compareSamples(sample1, sample2);
+				if(score > 0){
+					console.log(topics[a].topic + ' (' + topics[a].pairThreshold.toFixed(2) + ') and ' + topics[b].topic + ' (' + topics[b].pairThreshold.toFixed(2) + '): ' + score);
+				}
+				topicPairsChecked.push({
+					samples: [id1, id2]
+				});
+			}
+		}
+	}
+
+	console.log('***Compare topic areas to each other.');
 
 	console.log('FINISHED GROUPING ANALYSIS');
 

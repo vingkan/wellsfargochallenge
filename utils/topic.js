@@ -1,4 +1,4 @@
-function Topic(headNode, baselineMap){
+function Topic(headNode, baselineMap, pairThreshold){
 	this.idList = [];
 	this.headNode = headNode;
 	this.topic = '';
@@ -6,6 +6,7 @@ function Topic(headNode, baselineMap){
 	this.wordMap = new WordMap(BLACK_LIST);
 	this.baselineMap = baselineMap;
 	this.addNode(headNode);
+	this.pairThreshold = pairThreshold;
 }
 
 Topic.prototype.addNode = function(newNode){
@@ -59,4 +60,8 @@ Topic.prototype.getRepresentativeSample = function(){
 	var response = this.headNode;
 	response.keywords = this.wordMap.getAllWords();
 	return response;
+}
+
+Topic.prototype.getKeywords = function(){
+	return this.wordMap.getAllWords();
 }
