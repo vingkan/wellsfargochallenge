@@ -4,14 +4,14 @@
 
 var storage = new Storage();
 
-var IGNORE_THESE_WORDS = [' ', 'to', 'the', 'in', 'of', 'is', '&', 'a', 'it', 'i', 'who', 'you', 'your', 'and', 'will', 'for', 'be', 'with', 'they', 'we', 'are', 'on', 'at', 'what', 'me', 'too', 'in', 'for', 'an', 'for', 'their', 'when', 'its', 'my', 'from', 'have', 'had', 'this', 'or', 'if', 'was', 'by', 'has', 'as', 'do', 'would', 'dont', 'there', 'oh', 'didnt', 'wasnt', 'were', 'should', 'used', 'rt', 'youre', 'our', 'come', 'been', 'that', 'us', 'so', 'im', 'fb', 'goo', 'gl', 'bit', 'ly', 'did', 'https', 'internet', 'INTERNET', 'he', 'she', 'hes', 'shes', 'said', 'doesnt', 'st', 'rd', 'th', 'just', 'here', 'et', 'etc', 'done', 'one', 'two', 'three', 'anyone', 'da'];
+var IGNORE_THESE_WORDS = [' ', 'to', 'the', 'in', 'of', 'is', '&', 'a', 'it', 'i', 'who', 'you', 'your', 'and', 'will', 'for', 'be', 'with', 'they', 'we', 'are', 'on', 'at', 'what', 'me', 'too', 'in', 'for', 'an', 'for', 'their', 'when', 'its', 'my', 'from', 'have', 'had', 'this', 'or', 'if', 'was', 'by', 'has', 'as', 'do', 'would', 'dont', 'there', 'oh', 'didnt', 'wasnt', 'were', 'should', 'used', 'rt', 'youre', 'our', 'come', 'been', 'that', 'us', 'so', 'im', 'fb', 'goo', 'gl', 'bit', 'ly', 'did', 'https', 'internet', 'INTERNET', 'he', 'she', 'hes', 'shes', 'said', 'doesnt', 'st', 'rd', 'th', 'just', 'here', 'et', 'etc', 'done', 'one', 'two', 'three', 'anyone', 'da', 'through', 'true', 'use', 'til', 'can', 'dr', 'hey', 'be', 'being', 'could'];
 var TOPIC_WORDS = ['bank', 'banka', 'bankb', 'bankc', 'bankd', 'name', 'twit_hndl', 'ret_twit', 'name_resp', 'internet', 'twit_hndl_banka', 'twit_hndl_bankb', 'twit_hndl_bankc', 'twit_hndl_bankd', 'dir_msg'];
 var BLACK_LIST = IGNORE_THESE_WORDS.concat(TOPIC_WORDS);
 var baselineWordMap = new WordMap(BLACK_LIST);
 
 var TARGET_SAMPLE = null;
 
-var DATASET_SIZE = 100;
+var DATASET_SIZE = 150;
 
 getRandomDataArray(storage, DATASET_SIZE, 'sample', testDataAnalysis);
 
@@ -279,14 +279,18 @@ function groupingAnalysis(dataset){
 	}*/
 
 	//OUTPUT GROUPING RESULTS
-	/*for(var t = 0; t < numOfTopics; t++){
+	for(var t = 0; t < numOfTopics; t++){
 		var currentTopic = topics[t];
-		console.log(
-			'Topic: ' + topics[t].topic + ' (' + topics[t].nodes.length + ' nodes)',
-			'\nHead: ' + topics[t].headNode.text,
-			'\nKeywords: ' + topics[t].getKeywords()
-		);
-	}*/
+		var size = currentTopic.nodes.length;
+		document.write('<h1> Topic: ' + currentTopic.topic + ' (' + size + ' nodes)</h1>');
+		document.write('<p>Keywords: ' + currentTopic.getKeywords() + '</p>');
+		for(var s = 0; s < size; s++){
+			var currentSample = currentTopic.nodes[s];
+			var substance = currentTopic.getSubstance(currentSample);
+			document.write('<h2>Substance: ' + substance + '</h2>');
+			document.write('<p>Text: ' + currentSample.text + '</p>');
+		}
+	}
 
 
 	console.log('***Compare topic areas to each other.');

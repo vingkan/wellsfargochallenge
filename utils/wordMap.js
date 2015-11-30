@@ -14,6 +14,7 @@ function cleanseWord(dirty){
 	var clean = dirty.trim();
 	clean = clean.toLowerCase();
 	clean = clean.replace(/\ /g, '');
+	clean = clean.replace(/\d+/g,'');
 	clean = clean.replace(/\./g, '');
 	clean = clean.replace(/\#/g, '');
 	clean = clean.replace(/\*/g, '');
@@ -148,6 +149,9 @@ WordMap.prototype.isIgnored = function(thisWord){
 			response = true;
 			break;
 		}
+	}
+	if(targetWord.length <= 1){
+		response = true;
 	}
 	return response;
 }
