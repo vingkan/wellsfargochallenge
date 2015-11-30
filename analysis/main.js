@@ -32,6 +32,9 @@ function testDataAnalysis(dataset){
 	frequencyMap.getResults(3, false);
 	frequencyMap.getResults(3, true);
 
+	//PAIRING PROCESS
+	console.log(baselineWordMap.getNonIgnoredWords(sample));
+
 }
 
 console.log("LOADED main.js");

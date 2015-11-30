@@ -62,7 +62,7 @@ WordMap.prototype.countWord = function(thisWord){
 
 WordMap.prototype.add = function(thisWord){
 	var cleanWord = this.cleanseWord(thisWord);
-	if(cleanWord.length > 0){
+	if(cleanWord.length > 1){
 		var index = this.hasWord(cleanWord);
 		if(!this.isIgnored(cleanWord)){
 			if(index < 0){
@@ -170,7 +170,7 @@ WordMap.prototype.getFrequencyMap = function(wordList){
 			frequency > 0 &&
 			frequencyMap.hasWord(currentWord) === -1 &&
 			!this.isIgnored(currentWord) &&
-			currentWord.length > 0
+			currentWord.length > 1
 		){
 			//console.log('adding: "' + currentWord + '"');
 			frequencyMap.map.push({
@@ -178,6 +178,33 @@ WordMap.prototype.getFrequencyMap = function(wordList){
 				count: frequency
 			});
 		}
+		else{
+			//console.log('unsatisfied: ' + currentWord)
+		}
 	}
 	return frequencyMap;
+}
+
+WordMap.prototype.getNonIgnoredWords = function(sample){
+	var response = [];
+	var thisText = sample.text.split(" ");
+	var textSize = thisText.length;
+	var currentWord = '';
+	for(var t = 0; t < textSize; t++){
+		currentWord = this.cleanseWord(thisText[t]);
+		if(!this.isIgnored(currentWord)){
+			var found = false;
+			var listSize = response.length;
+			for(var r = 0; r < listSize; r++){
+				if(response[r] === currentWord){
+					found = true;
+					break;
+				}
+			}
+			if(!found){
+				response.push(currentWord);
+			}
+		}
+	}
+	return response;
 }
