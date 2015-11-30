@@ -89,7 +89,8 @@ function comparisonAnalysis(dataset){
 		}
 	}
 
-	if(comparables.length > 0){
+	//DONT OUTPUT CONTENDERS TO PAGE
+	/*if(comparables.length > 0){
 
 		var numOfContenders = comparables.length;
 		comparables.sort(function(a, b){
@@ -127,15 +128,15 @@ function comparisonAnalysis(dataset){
 	}
 	else{
 		console.log('No comparable samples found in dataset.');
-	}
+	}*/
 
 	console.log('FINISHED COMPARISON ANALYSIS');
 
-	groupingAnalysis(dataset, maxScoreIndex);
+	groupingAnalysis(dataset);
 
 }
 
-function groupingAnalysis(dataset, maxScoreIndex){
+function groupingAnalysis(dataset){
 
 	console.log(dataset);
 
@@ -240,7 +241,8 @@ function groupingAnalysis(dataset, maxScoreIndex){
 
 	console.log('***Added chained nodes to topic areas.');
 
-	var topicPairsChecked = [];
+	//NO GROUP MERGING FOR NOW: short on time
+	/*var topicPairsChecked = [];
 	for(var a = 0; a < numOfTopics; a++){
 		for(var b = 0; b < numOfTopics; b++){
 			var id1 = topics[a].id;
@@ -250,7 +252,7 @@ function groupingAnalysis(dataset, maxScoreIndex){
 				/*if(checkPair(topicPairsChecked, id1, id2)){
 					console.log('caught: ', topicPairsChecked, id1, id2)
 				}*/
-			}
+			/*}
 			else{
 				var sample1 = topics[a].getRepresentativeSample();
 				var sample2 = topics[b].getRepresentativeSample();
@@ -274,7 +276,18 @@ function groupingAnalysis(dataset, maxScoreIndex){
 				});
 			}
 		}
-	}
+	}*/
+
+	//OUTPUT GROUPING RESULTS
+	/*for(var t = 0; t < numOfTopics; t++){
+		var currentTopic = topics[t];
+		console.log(
+			'Topic: ' + topics[t].topic + ' (' + topics[t].nodes.length + ' nodes)',
+			'\nHead: ' + topics[t].headNode.text,
+			'\nKeywords: ' + topics[t].getKeywords()
+		);
+	}*/
+
 
 	console.log('***Compare topic areas to each other.');
 

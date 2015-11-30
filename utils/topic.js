@@ -78,3 +78,32 @@ Topic.prototype.updateTreshold = function(newNode){
 		}
 	}
 }
+
+Topic.prototype.getSubstance = function(sample){
+	//Substance falls back on topic
+	var substance = topic;
+	var words = sample.text.split(" ");
+	var size = words.length;
+	var response = [];
+	for(var w = 0; w < size; w++){
+		var frequency = this.baselineMap.getFrequency(words[w]);
+		response.push({
+			word: words[w],
+			frequency: frequency
+		});
+	}
+	response.sort(function(a, b){
+		return a.frequency - b.frequency;
+	});
+	var size = response.length;
+	for(var r = 0; r < size; r++){
+		if(this.topic === response[r].word){
+			//Don't use this word
+		}
+		else{
+			substance = response[r].word;
+			break;
+		}
+	}
+	return substance;
+}
