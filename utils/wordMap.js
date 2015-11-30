@@ -182,7 +182,7 @@ WordMap.prototype.getFrequencyMap = function(wordList){
 		){
 			//console.log('adding: "' + currentWord + '"');
 			frequencyMap.map.push({
-				word: this.cleanseWord(currentWord),
+				word: currentWord,
 				count: frequency
 			});
 		}
@@ -200,7 +200,7 @@ WordMap.prototype.getNonIgnoredWords = function(sample){
 	var currentWord = '';
 	for(var t = 0; t < textSize; t++){
 		currentWord = this.cleanseWord(thisText[t]);
-		if(this.isIgnored(currentWord)){
+		if(this.isIgnored(currentWord) || currentWord.length <= 1){
 
 		}
 		else{
@@ -222,8 +222,8 @@ WordMap.prototype.getNonIgnoredWords = function(sample){
 
 WordMap.prototype.getMatches = function(sampleList1, sampleList2){
 	var matches = [];
-	var wordsList1 = sampleList1;//this.getNonIgnoredWords(sample1);
-	var wordsList2 = sampleList2;//this.getNonIgnoredWords(sample2);
+	var wordsList1 = sampleList1.slice();//this.getNonIgnoredWords(sample1);
+	var wordsList2 = sampleList2.slice();//this.getNonIgnoredWords(sample2);
 	var size1 = wordsList1.length;
 	for(var a = 0; a < size1; a++){
 		if(wordsList1[a].length > 1){
@@ -248,6 +248,7 @@ WordMap.prototype.getMatches = function(sampleList1, sampleList2){
 
 WordMap.prototype.compareSamples = function(sample1, sample2){
 	var score = 0;
+	//console.log(sample1.keywords, sample2.keywords)
 	var matches = this.getMatches(sample1.keywords, sample2.keywords);
 	var size = matches.length;
 	for(var m = 0; m < size; m++){

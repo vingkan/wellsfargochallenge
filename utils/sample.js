@@ -46,6 +46,8 @@ Sample.prototype.toComparableHTML = function(targetID, bonus){
 	var text = document.createTextNode(this.text);
 	div.appendChild(text);
 
+	//console.log(bonus.matches)
+
 	bonus.matches.sort(function(a, b){
 		return bonus.map.getFrequency(a) - bonus.map.getFrequency(b);
 	});

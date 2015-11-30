@@ -61,13 +61,12 @@ function groupingAnalysis(dataset){
 
 	for(var a = 0; a < size; a++){
 		if(a%10 === 0 ){
-			console.log(a)
+			console.log(a);
 		}
 		for(var b = 0; b < size; b++){
-			if(dataset[a].id === dataset[b].id){
-				
+			if(dataset[a].id === dataset[b].id || checkPair(comparables, dataset[a].id, dataset[b].id)){
 			}
-			else if(!checkPair(comparables, dataset[a].id, dataset[b].id)){
+			else{
 				var score = baselineWordMap.compareSamples(dataset[a], dataset[b]);
 				if(score > 0){
 					comparables.push({
@@ -87,13 +86,13 @@ function groupingAnalysis(dataset){
 		});
 		var maxScore = comparables[0].score;
 
-		console.log(comparables[0]);
+		//console.log(comparables[0]);
 
 		for(var c = 0; c < numOfContenders; c++){
 
 			var matchesList = baselineWordMap.getMatches(
-				comparables[c].samples[0],
-				comparables[c].samples[1]
+				comparables[c].samples[0].keywords,
+				comparables[c].samples[1].keywords
 			);
 
 			comparables[c].samples[0].toComparableHTML(
