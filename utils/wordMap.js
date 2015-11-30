@@ -118,7 +118,9 @@ WordMap.prototype.getResults = function(size, topResults){
 	var result;
 	for(var w = 0; w < size; w++){
 		result = this.get(w);
-		console.log((w+1) + '. ' + result.word + ' (' + result.count + ')');
+		if(result){
+			console.log((w+1) + '. ' + result.word + ' (' + result.count + ')');
+		}
 	}
 	console.log('Caught ' + this.ignoredCatches + ' ignored words.');
 	console.log('Total Words Analyzed: ' + this.totalWords);

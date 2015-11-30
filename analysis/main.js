@@ -39,7 +39,9 @@ function testDataAnalysis(dataset){
 
 	console.log('FINISHED BASELINE ANALYSIS');
 
-	getRandomDataArray(storage, 1000, 'comparisons', comparisonAnalysis);
+	//getRandomDataArray(storage, 1000, 'comparisons', comparisonAnalysis);
+
+	comparisonAnalysis(dataset);
 
 }
 
@@ -71,10 +73,10 @@ function comparisonAnalysis(dataset){
 			var matchesList = baselineWordMap.getMatches(TARGET_SAMPLE, comparables[c].sample);
 			comparables[c].sample.toComparableHTML('comparable-samples', {
 				score: comparables[c].score.toFixed(5),
-				opacity: (maxScore + comparables[c].score) / (2 * maxScore),
+				opacity: ((0.25 * maxScore) + comparables[c].score) / (1.25 * maxScore),
 				matches: matchesList
 			});
-			console.log(header + '\n' + matchesList + '\n');
+			//console.log(header + '\n' + matchesList + '\n');
 		}
 	}
 	else{

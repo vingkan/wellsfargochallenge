@@ -2,7 +2,8 @@
 /*---> COLORS <-------------------------------*/
 /*--------------------------------------------*/
 
-@mainColor: #E85004;
+//@mainColor: #E85004;
+@mainColor: #55ACEE;
 @mainLight: @mainColor + #222222;
 @mainDark: @mainColor - #222222;
 
@@ -97,6 +98,7 @@ body{
 /*--------------------------------------------*/
 
 div.social-media-sample{
+
 	background: white;
 	color: @charcoal;
 	width: 80vw;
@@ -105,19 +107,20 @@ div.social-media-sample{
 	border-radius: 2vw;
 	font-size: @textSize;
 	line-height: 1.5 * @textSize;
+
 }
 
 div.sample-comparison{
 
 	display: inline-block;
 	width: 35vw;
-	height: 10vw;
+	//height: 10vw;
 	margin: 2.5vw;
 	padding: 2.5vw;
 	border-radius: 1vw;
 	font-size: 0.50 * @textSize;
 	line-height: 0.75 * @textSize;
-	overflow-y: scroll;
+	//overflow-y: scroll;
 
 	span{
 
@@ -129,6 +132,14 @@ div.sample-comparison{
 			content: ' ';
 		}
 
+	}
+
+	textarea.matches-list{
+		width: 100% - 1vw;
+		background: @mainColor;
+		color: white;
+		margin: 1vw auto;
+		padding: 0.5vw;
 	}
 
 }
@@ -145,7 +156,7 @@ div.sample-comparison{
 /*---> FORM <----------------------------------*/
 /*--------------------------------------------*/
 
-input, button, select{
+input, button, select, textarea{
 	outline: none;
 	border: none;
 }
