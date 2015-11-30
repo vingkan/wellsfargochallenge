@@ -60,7 +60,9 @@ function getRandomDataArray(storage, size, id, dataCallback){
 		storage.add(toStorage);
 		console.log('Added to storage with ID: ' + id);
 		//Runs callback function with data;
-		dataCallback(storage.get(id));
+		if(dataCallback){
+			dataCallback(storage.get(id));
+		}
 
 	});
 
@@ -88,7 +90,9 @@ function getDataByIds(storage, idList, id, dataCallback){
 		storage.add(toStorage);
 		console.log('Added to storage with ID: ' + id);
 		//Runs callback function with data;
-		dataCallback(storage.get(id));
+		if(dataCallback){
+			dataCallback(storage.get(id));
+		}
 
 	});
 

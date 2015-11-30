@@ -42,7 +42,69 @@ function testDataAnalysis(dataset){
 
 	//getRandomDataArray(storage, 1000, 'comparisons', comparisonAnalysis);
 
-	comparisonAnalysis(dataset);
+	//comparisonAnalysis(dataset);
+	groupingAnalysis(dataset);
+
+}
+
+function groupingAnalysis(dataset){
+
+	var size = dataset.length;
+	var comparables = [];
+
+	for(var a = 0; a < size; a++){
+		for(var b = 0; b < size; b++){
+			if(dataset[a].id === dataset[b].id){
+				
+			}
+			else{
+				var score = baselineWordMap.compareSamples(dataset[a], dataset[b]);
+				if(score > 0){
+					comparables.push({
+						samples: [dataset[a], dataset[b]],
+						score: score
+					});
+				}
+			}
+		}
+	}
+
+	if(comparables.length > 0){
+
+		var numOfContenders = comparables.length;
+		comparables.sort(function(a, b){
+			return b.score - a.score;
+		});
+		var maxScore = comparables[0].score;
+
+		console.log(comparables[0]);
+
+		for(var c = 0; c < numOfContenders; c++){
+
+			var matchesList = baselineWordMap.getMatches(
+				comparables[c].samples[0],
+				comparables[c].samples[1]
+			);
+
+			comparables[c].samples[0].toComparableHTML(
+				'comparable-samples', {
+				score: comparables[c].score.toFixed(5),
+				opacity: ((0.25 * maxScore) + comparables[c].score) / (1.25 * maxScore),
+				matches: matchesList
+			});
+			comparables[c].samples[1].toComparableHTML(
+				'comparable-samples', {
+				score: comparables[c].score.toFixed(5),
+				opacity: ((0.25 * maxScore) + comparables[c].score) / (1.25 * maxScore),
+				matches: matchesList
+			});
+
+		}
+
+	}
+	else{
+		console.log('No comparable samples found in dataset.');
+	}
 
 }
 
