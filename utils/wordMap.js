@@ -260,3 +260,21 @@ WordMap.prototype.compareSamples = function(sample1, sample2){
 	}
 	return score;
 }
+
+WordMap.prototype.getAllWords = function(){
+	var response = [];
+	var size = this.map.length;
+	for(var w = 0; w < size; w++){
+		response.push(this.map[w].word);
+	}
+	return response;
+}
+
+WordMap.prototype.getAllWordsAsString = function(){
+	var response = '';
+	var size = this.map.length;
+	for(var w = 0; w < size; w++){
+		response += this.map[w].word + " ";
+	}
+	return response;
+}

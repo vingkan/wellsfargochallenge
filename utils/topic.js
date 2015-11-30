@@ -54,3 +54,9 @@ Topic.prototype.assessTopic = function(){
 	//console.log('Naive: ' + this.wordMap.map[0].word + ', Boosted: ' + response[0].word);
 	this.topic = response[0].word;
 }
+
+Topic.prototype.getRepresentativeSample = function(){
+	var response = this.headNode;
+	response.keywords = this.wordMap.getAllWords();
+	return response;
+}

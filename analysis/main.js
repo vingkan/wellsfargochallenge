@@ -206,8 +206,8 @@ function groupingAnalysis(dataset, maxScoreIndex){
 		topics.push(newTopic);
 	}
 
-	/*console.log(topics);
 	var numOfTopics = topics.length;
+	/*console.log(topics);
 	for(var t = 0; t < numOfTopics; t++){
 		console.log('Topic: ' + topics[t].topic, '\nHead: ' + topics[t].headNode.text);
 	}*/
