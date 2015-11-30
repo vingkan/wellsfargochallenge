@@ -15,11 +15,17 @@ function Sample(textLine, topicOverride){
 	this.topic = topicOverride || 'NO-TOPIC';
 }
 
-Sample.prototype.toHTML = function(targetID){
+Sample.prototype.toHTML = function(targetID, bonus){
 	var div = document.createElement('div');
 	var text = document.createTextNode(this.text);
 	div.appendChild(text);
 	div.classList.add('social-media-sample');
+
+	var keywords = document.createElement('textarea');
+	keywords.value = bonus.keywords;
+	keywords.classList.add('matches-list');
+	div.appendChild(keywords);
+
 	if(targetID){
 		var output = document.getElementById(targetID);
 		output.appendChild(div);

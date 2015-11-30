@@ -4,14 +4,14 @@
 
 var storage = new Storage();
 
-var IGNORE_THESE_WORDS = [' ', 'to', 'the', 'in', 'of', 'is', '&', 'a', 'it', 'i', 'who', 'you', 'your', 'and', 'will', 'for', 'be', 'with', 'they', 'we', 'are', 'on', 'at', 'what', 'me', 'too', 'in', 'for', 'an', 'for', 'their', 'when', 'its', 'my', 'from', 'have', 'had', 'this', 'or', 'if', 'was', 'by', 'has', 'as', 'do', 'would', 'dont', 'there', 'oh', 'didnt', 'wasnt', 'were', 'should', 'used', 'rt', 'youre', 'our', 'come', 'been', 'that', 'us', 'so'];
+var IGNORE_THESE_WORDS = [' ', 'to', 'the', 'in', 'of', 'is', '&', 'a', 'it', 'i', 'who', 'you', 'your', 'and', 'will', 'for', 'be', 'with', 'they', 'we', 'are', 'on', 'at', 'what', 'me', 'too', 'in', 'for', 'an', 'for', 'their', 'when', 'its', 'my', 'from', 'have', 'had', 'this', 'or', 'if', 'was', 'by', 'has', 'as', 'do', 'would', 'dont', 'there', 'oh', 'didnt', 'wasnt', 'were', 'should', 'used', 'rt', 'youre', 'our', 'come', 'been', 'that', 'us', 'so', 'im'];
 var TOPIC_WORDS = ['bank', 'banka', 'bankb', 'bankc', 'bankd', 'name', 'twit_hndl', 'ret_twit', 'name_resp', 'internet', 'twit_hndl_banka', 'twit_hndl_bankb', 'twit_hndl_bankc', 'twit_hndl_bankd'];
 var BLACK_LIST = IGNORE_THESE_WORDS.concat(TOPIC_WORDS);
 var baselineWordMap = new WordMap(BLACK_LIST);
 
 var TARGET_SAMPLE = null;
 
-getRandomDataArray(storage, 1000, 'sample', testDataAnalysis);
+getRandomDataArray(storage, 100, 'sample', testDataAnalysis);
 
 function testDataAnalysis(dataset){
 
@@ -22,9 +22,10 @@ function testDataAnalysis(dataset){
 
 	//WORD UNIQUENESS ANALYSIS
 	var sample1 = dataset[2];
-	var sample2 = dataset[7];
 	//Display on HTML Page
-	sample1.toHTML('current-sample');
+	sample1.toHTML('current-sample', {
+		keywords: baselineWordMap.getNonIgnoredWords(sample1)
+	});
 	//Display in Console
 	console.log(sample1);
 
@@ -52,12 +53,17 @@ function comparisonAnalysis(dataset){
 	//LOOP THROUGH SAMPLE
 	var size = dataset.length;
 	for(var s = 0; s < size; s++){
-		var score = baselineWordMap.compareSamples(TARGET_SAMPLE, dataset[s]);
-		if(score > 0){
-			comparables.push({
-				sample: dataset[s],
-				score: score
-			});
+		if(TARGET_SAMPLE.id === dataset[s].id){
+			
+		}
+		else{
+			var score = baselineWordMap.compareSamples(TARGET_SAMPLE, dataset[s]);
+			if(score > 0){
+				comparables.push({
+					sample: dataset[s],
+					score: score
+				});
+			}
 		}
 	}
 

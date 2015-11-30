@@ -28,6 +28,8 @@ function cleanseWord(dirty){
 	clean = clean.replace(/\)/g, '');
 	clean = clean.replace(/\[/g, '');
 	clean = clean.replace(/\]/g, '');
+	clean = clean.replace(/\&/g, '');
+	clean = clean.replace(/\$/g, '');
 	return clean;
 }
 
