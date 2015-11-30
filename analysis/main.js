@@ -255,15 +255,19 @@ function groupingAnalysis(dataset, maxScoreIndex){
 				var sample1 = topics[a].getRepresentativeSample();
 				var sample2 = topics[b].getRepresentativeSample();
 				var score = baselineWordMap.compareSamples(sample1, sample2);
-				if(score > 0){
-					console.log(topics[a].topic + ' (' + topics[a].pairThreshold.toFixed(2) + ') and ' + topics[b].topic + ' (' + topics[b].pairThreshold.toFixed(2) + '): ' + score);
-					if(score > topics[a].pairThreshold || score > topics[a].pairThreshold){
-						console.log(topics[a].getKeywords());
-						console.log(topics[a].headNode.text);
-						console.log(topics[b].getKeywords());
-						console.log(topics[b].headNode.text);
+				//console.log(topics[a].topic + ' (' + topics[a].pairThreshold.toFixed(2) + ') and ' + topics[b].topic + ' (' + topics[b].pairThreshold.toFixed(2) + '): ' + score);
+				if(score > 0 && score > topics[a].pairThreshold && score > topics[a].pairThreshold){
+					console.log(topics[a].getKeywords());
+					console.log(topics[a].headNode.text);
+					console.log(topics[b].getKeywords());
+					console.log(topics[b].headNode.text);
+					var mainTopic = null;
+					if(topics[a].pairThreshold >= topics[b].pairThreshold){
+						mainTopic = topics[a];
 					}
-
+					else{
+						mainTopic = topics[b];
+					}
 				}
 				topicPairsChecked.push({
 					samples: [{id: id1}, {id: id2}]
