@@ -66,17 +66,17 @@ WordMap.prototype.add = function(thisWord){
 	var cleanWord = this.cleanseWord(thisWord);
 	if(cleanWord.length > 1){
 		var index = this.hasWord(cleanWord);
-		if(!this.isIgnored(cleanWord)){
+		if(this.isIgnored(cleanWord)){
+			this.ignoredCatches++;
+			//console.log('Caught ignored word: ' + thisWord);
+		}
+		else{
 			if(index < 0){
 				this.addNewWord(cleanWord);
 			}
 			else{
 				this.countWord(cleanWord);
 			}
-		}
-		else{
-			this.ignoredCatches++;
-			//console.log('Caught ignored word: ' + thisWord);
 		}
 		this.totalWords++;
 	}
@@ -140,10 +140,11 @@ WordMap.prototype.addIgnoredWord = function(badWord){
 }
 
 WordMap.prototype.isIgnored = function(thisWord){
+	var targetWord = this.cleanseWord(thisWord);
 	var response = false;
 	var size = this.ignored.length;
 	for(var b = 0; b < size; b++){
-		if(this.ignored[b] === thisWord){
+		if(this.cleanseWord(this.ignored[b]) === targetWord){
 			response = true;
 			break;
 		}
@@ -199,7 +200,10 @@ WordMap.prototype.getNonIgnoredWords = function(sample){
 	var currentWord = '';
 	for(var t = 0; t < textSize; t++){
 		currentWord = this.cleanseWord(thisText[t]);
-		if(!this.isIgnored(currentWord)){
+		if(this.isIgnored(currentWord)){
+
+		}
+		else{
 			var found = false;
 			var listSize = response.length;
 			for(var r = 0; r < listSize; r++){

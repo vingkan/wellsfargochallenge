@@ -46,6 +46,20 @@ Sample.prototype.toComparableHTML = function(targetID, bonus){
 	var text = document.createTextNode(this.text);
 	div.appendChild(text);
 
+	bonus.matches.sort(function(a, b){
+		return bonus.map.getFrequency(a) - bonus.map.getFrequency(b);
+	});
+
+	var frequency = document.createElement('ul');
+	var size = bonus.matches.length;
+	for(var m = 0; m < size; m++){
+		var item = document.createElement('li');
+		item.textContent = bonus.matches[m] + ' (';
+		item.textContent += bonus.map.getFrequency(bonus.matches[m]).toFixed(10) + ')';
+		frequency.appendChild(item);
+	}
+	div.appendChild(frequency);
+
 	var matches = document.createElement('textarea');
 	matches.value = bonus.matches;
 	matches.classList.add('matches-list');

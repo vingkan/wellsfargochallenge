@@ -4,7 +4,7 @@
 
 var storage = new Storage();
 
-var IGNORE_THESE_WORDS = [' ', 'to', 'the', 'in', 'of', 'is', '&', 'a', 'it', 'i', 'who', 'you', 'your', 'and', 'will', 'for', 'be', 'with', 'they', 'we', 'are', 'on', 'at', 'what', 'me', 'too', 'in', 'for', 'an', 'for', 'their', 'when', 'its', 'my', 'from', 'have', 'had', 'this', 'or', 'if', 'was', 'by', 'has', 'as', 'do', 'would', 'dont', 'there', 'oh', 'didnt', 'wasnt', 'were', 'should', 'used', 'rt', 'youre', 'our', 'come', 'been', 'that', 'us', 'so', 'im', 'fb', 'goo', 'gl', 'bit', 'ly', 'did', 'https'];
+var IGNORE_THESE_WORDS = [' ', 'to', 'the', 'in', 'of', 'is', '&', 'a', 'it', 'i', 'who', 'you', 'your', 'and', 'will', 'for', 'be', 'with', 'they', 'we', 'are', 'on', 'at', 'what', 'me', 'too', 'in', 'for', 'an', 'for', 'their', 'when', 'its', 'my', 'from', 'have', 'had', 'this', 'or', 'if', 'was', 'by', 'has', 'as', 'do', 'would', 'dont', 'there', 'oh', 'didnt', 'wasnt', 'were', 'should', 'used', 'rt', 'youre', 'our', 'come', 'been', 'that', 'us', 'so', 'im', 'fb', 'goo', 'gl', 'bit', 'ly', 'did', 'https', 'internet', 'INTERNET'];
 var TOPIC_WORDS = ['bank', 'banka', 'bankb', 'bankc', 'bankd', 'name', 'twit_hndl', 'ret_twit', 'name_resp', 'internet', 'twit_hndl_banka', 'twit_hndl_bankb', 'twit_hndl_bankc', 'twit_hndl_bankd'];
 var BLACK_LIST = IGNORE_THESE_WORDS.concat(TOPIC_WORDS);
 var baselineWordMap = new WordMap(BLACK_LIST);
@@ -17,24 +17,24 @@ function testDataAnalysis(dataset){
 
 	//WORD MAP ANALYSIS
 	baselineWordMap = getWordMap(dataset, baselineWordMap);
-	topResults = false;
+	//topResults = false;
 	//baselineWordMap.getResults(10, topResults);
 
 	//WORD UNIQUENESS ANALYSIS
 	var sample1 = dataset[2];
 	//Display on HTML Page
-	sample1.toHTML('current-sample', {
+	/*sample1.toHTML('current-sample', {
 		keywords: baselineWordMap.getNonIgnoredWords(sample1)
-	});
+	});*/
 	//Display in Console
-	console.log(sample1);
+	//console.log(sample1);
 
 	//FREQUENCY MAP ANALYSIS
 	var wordList = sample1.text.split(' ');
-	var frequencyMap = baselineWordMap.getFrequencyMap(wordList);
+	/*var frequencyMap = baselineWordMap.getFrequencyMap(wordList);
 	console.log(frequencyMap);
 	frequencyMap.getResults(3, false);
-	frequencyMap.getResults(3, true);
+	frequencyMap.getResults(3, true);*/
 
 	TARGET_SAMPLE = sample1;
 
@@ -90,13 +90,15 @@ function groupingAnalysis(dataset){
 				'comparable-samples', {
 				score: comparables[c].score.toFixed(5),
 				opacity: ((0.25 * maxScore) + comparables[c].score) / (1.25 * maxScore),
-				matches: matchesList
+				matches: matchesList,
+				map: baselineWordMap
 			});
 			comparables[c].samples[1].toComparableHTML(
 				'comparable-samples', {
 				score: comparables[c].score.toFixed(5),
 				opacity: ((0.25 * maxScore) + comparables[c].score) / (1.25 * maxScore),
-				matches: matchesList
+				matches: matchesList,
+				map: baselineWordMap
 			});
 
 		}
