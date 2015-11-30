@@ -39,22 +39,38 @@ function testDataAnalysis(dataset){
 
 	console.log('FINISHED BASELINE ANALYSIS');
 
-	getRandomDataArray(storage, 100, 'comparisons', comparisonAnalysis);
+	getRandomDataArray(storage, 1000, 'comparisons', comparisonAnalysis);
 
 }
 
 function comparisonAnalysis(dataset){
 
-	//LOOPING COMPARISONS
+	var comparables = [];
+
+	//LOOP THROUGH SAMPLE
 	var size = dataset.length;
 	for(var s = 0; s < size; s++){
 		var score = baselineWordMap.compareSamples(TARGET_SAMPLE, dataset[s]);
 		if(score > 0){
-			console.log(dataset[s].id + ': ' + score.toFixed(5));
-			console.log(baselineWordMap.compareSamples(TARGET_SAMPLE, dataset[s]))
-			dataset[s].toComparableHTML('comparable-samples', score.toFixed(5));
+			comparables.push({
+				sample: dataset[s],
+				score: score
+			});
 		}
 	}
+
+	//SORT CONTENDERS
+	var numOfContenders = comparables.length;
+	comparables.sort(function(a, b){
+		return b.score - a.score;
+	});
+	for(var c = 0; c < numOfContenders; c++){
+		console.log(dataset[s].id + ': ' + score.toFixed(5));
+		console.log(baselineWordMap.getMatches(TARGET_SAMPLE, dataset[s]));
+		dataset[s].toComparableHTML('comparable-samples', score.toFixed(5));
+		console.log(' ');
+	}
+
 
 	console.log('FINISHED COMPARISON ANALYSIS');
 
