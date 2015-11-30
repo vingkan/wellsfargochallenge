@@ -66,6 +66,34 @@ function getRandomDataArray(storage, size, id, dataCallback){
 
 }
 
+function getDataByIds(storage, idList, id, dataCallback){
+	
+	var fileURL = 'https://c7bc5a3a1eec525091f717ca9c0611b2d48ebf9f-www.googledrive.com/host/0B5EZCXdq2crRbG94TGhuNk1tcU0';
+	var response = [];
+	
+	$.get(fileURL, function(data){
+		
+		var lines = data.split("\n");
+		var fileSize = lines.length;
+		var requestSize = idList.length;
+		
+		for(var i = 0; i < requestSize; i++){
+			response.push(new Sample(lines[idList[i]]));
+		}
+
+		var toStorage = {
+			id: id,
+			data: response
+		}
+		storage.add(toStorage);
+		console.log('Added to storage with ID: ' + id);
+		//Runs callback function with data;
+		dataCallback(storage.get(id));
+
+	});
+
+}
+
 //PRIMARY APPROACH USING JQUERY REQUESTS
 /*$.get(fileURL, function(data){
 	var textData = data;
