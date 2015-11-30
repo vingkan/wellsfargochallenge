@@ -54,6 +54,11 @@ function groupingAnalysis(dataset){
 	var size = dataset.length;
 	var comparables = [];
 
+	for(var s = 0; s < size; s++){
+		dataset[s].keywords = baselineWordMap.getNonIgnoredWords(dataset[s]);
+	}
+	console.log('***Created all getNonIgnoredWords Lists');
+
 	for(var a = 0; a < size; a++){
 		if(a%10 === 0 ){
 			console.log(a)
