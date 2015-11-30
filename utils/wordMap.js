@@ -78,6 +78,9 @@ WordMap.prototype.add = function(thisWord){
 		}
 		this.totalWords++;
 	}
+	else{
+		//console.log('rejected: ' + cleanWord);
+	}
 }
 
 WordMap.prototype.get = function(index){
@@ -207,4 +210,39 @@ WordMap.prototype.getNonIgnoredWords = function(sample){
 		}
 	}
 	return response;
+}
+
+WordMap.prototype.getMatches = function(sample1, sample2){
+	var matches = [];
+	var wordsList1 = this.getNonIgnoredWords(sample1);
+	var wordsList2 = this.getNonIgnoredWords(sample2);
+	var size1 = wordsList1.length;
+	for(var a = 0; a < size1; a++){
+		if(wordsList1[a].length > 1){
+			var size2 = wordsList2.length;
+			for(var b = 0; b < size2; b++){
+				if(wordsList1[a] === wordsList2[b]){
+					matches.push(wordsList1[a]);
+					wordsList2.splice(b, 1);
+					break;
+				}
+			}
+		}
+		else{
+			//console.log('caught: ' + wordsList1[a]);
+		}
+	}
+	return matches;
+}
+
+WordMap.prototype.compareSamples = function(sample1, sample2){
+	var score = 0;
+	var matches = this.getMatches(sample1, sample2);
+	var size = 0;
+	for(var m = 0; m < size; m++){
+		var frequency = this.getFrequency(matches[m]);
+		var inverseFrequency = Math.pow(frequency, -1);
+		console.log(frequency + '^-1 = ' + inverseFrequency);
+	}
+	return score;
 }
