@@ -1,17 +1,30 @@
-function Topic(headNode){
-	this.id = headNode.id;
+function Topic(headNode, baselineMap){
+	this.idList = [];
 	this.headNode = headNode;
 	this.topic = '';
 	this.nodes = [];
 	this.wordMap = new WordMap(BLACK_LIST);
-	this.addAllWords(headNode.text);
-	this.assessTopic();
+	this.baselineMap = baselineMap;
+	this.addNode(headNode);
 }
 
 Topic.prototype.addNode = function(newNode){
+	this.idList.push(newNode.id);
 	this.nodes.push(newNode);
 	this.addAllWords(newNode.text);
 	this.assessTopic();
+}
+
+Topic.prototype.hasID = function(targetID){
+	var found = false;
+	var size = this.idList.length;
+	for(var i = 0; i < size; i++){
+		if(this.idList[i] === targetID){
+			found = true;
+			break;
+		}
+	}
+	return found;
 }
 
 Topic.prototype.addAllWords = function(text){
@@ -23,6 +36,21 @@ Topic.prototype.addAllWords = function(text){
 }
 
 Topic.prototype.assessTopic = function(){
-	this.wordMap.sort(true);
-	this.topic = this.wordMap.map[0].word;
+	var response = [];
+	//this.topic = this.wordMap.map[0].word;
+	var size = this.wordMap.map.length;
+	for(var w = 0; w < size; w++){
+		var frequency = this.baselineMap.getFrequency(this.wordMap.map[w].word);
+		var inverseFrequency = Math.pow(frequency, -1);
+		var score = this.wordMap.map[w].count * inverseFrequency;
+		response.push({
+			word: this.wordMap.map[w].word,
+			score: score
+		});
+	}
+	response.sort(function(a, b){
+		return b.score - a.score;
+	});
+	//console.log('Naive: ' + this.wordMap.map[0].word + ', Boosted: ' + response[0].word);
+	this.topic = response[0].word;
 }

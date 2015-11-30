@@ -51,6 +51,18 @@ function getSampleById(list, id){
 	return index;
 }
 
+function getTopicWithId(list, id){
+	var index = -1;
+	var size = list.length;
+	for(var i = 0; i < size; i++){
+		if(list[i].hasID(id)){
+			index = i;
+			break;
+		}
+	}
+	return index;
+}
+
 /*var results = getWordMap(testData);
 console.log(results);*/
 

@@ -4,7 +4,7 @@
 
 var storage = new Storage();
 
-var IGNORE_THESE_WORDS = [' ', 'to', 'the', 'in', 'of', 'is', '&', 'a', 'it', 'i', 'who', 'you', 'your', 'and', 'will', 'for', 'be', 'with', 'they', 'we', 'are', 'on', 'at', 'what', 'me', 'too', 'in', 'for', 'an', 'for', 'their', 'when', 'its', 'my', 'from', 'have', 'had', 'this', 'or', 'if', 'was', 'by', 'has', 'as', 'do', 'would', 'dont', 'there', 'oh', 'didnt', 'wasnt', 'were', 'should', 'used', 'rt', 'youre', 'our', 'come', 'been', 'that', 'us', 'so', 'im', 'fb', 'goo', 'gl', 'bit', 'ly', 'did', 'https', 'internet', 'INTERNET', 'he', 'she', 'said', 'doesnt', 'st', 'rd', 'th', 'just', 'here', 'et', 'etc', 'done', 'one', 'two', 'three', 'anyone'];
+var IGNORE_THESE_WORDS = [' ', 'to', 'the', 'in', 'of', 'is', '&', 'a', 'it', 'i', 'who', 'you', 'your', 'and', 'will', 'for', 'be', 'with', 'they', 'we', 'are', 'on', 'at', 'what', 'me', 'too', 'in', 'for', 'an', 'for', 'their', 'when', 'its', 'my', 'from', 'have', 'had', 'this', 'or', 'if', 'was', 'by', 'has', 'as', 'do', 'would', 'dont', 'there', 'oh', 'didnt', 'wasnt', 'were', 'should', 'used', 'rt', 'youre', 'our', 'come', 'been', 'that', 'us', 'so', 'im', 'fb', 'goo', 'gl', 'bit', 'ly', 'did', 'https', 'internet', 'INTERNET', 'he', 'she', 'said', 'doesnt', 'st', 'rd', 'th', 'just', 'here', 'et', 'etc', 'done', 'one', 'two', 'three', 'anyone', 'da'];
 var TOPIC_WORDS = ['bank', 'banka', 'bankb', 'bankc', 'bankd', 'name', 'twit_hndl', 'ret_twit', 'name_resp', 'internet', 'twit_hndl_banka', 'twit_hndl_bankb', 'twit_hndl_bankc', 'twit_hndl_bankd'];
 var BLACK_LIST = IGNORE_THESE_WORDS.concat(TOPIC_WORDS);
 var baselineWordMap = new WordMap(BLACK_LIST);
@@ -60,7 +60,7 @@ function comparisonAnalysis(dataset){
 		dataset[s].keywords = baselineWordMap.getNonIgnoredWords(dataset[s]);
 		dataset[s].mappings = [];
 	}
-	console.log('***Created all getNonIgnoredWords Lists');
+	console.log('***Created all getNonIgnoredWords Lists.');
 
 	for(var a = 0; a < size; a++){
 		if(a%10 === 0 ){
@@ -200,17 +200,39 @@ function groupingAnalysis(dataset, maxScoreIndex){
 		console.log(nodes[n].id +' and ' + nodes[n].pairing.id + ' (chained: ' + nodes[n].pairing.chained.length + ')');
 		var pairIndex = getSampleById(nodes, nodes[n].pairing.id);
 		var mate = nodes[pairIndex];
-		var newTopic = new Topic(nodes[n]);
+		var newTopic = new Topic(nodes[n], baselineWordMap);
 		newTopic.addNode(mate);
 		nodes.splice(pairIndex, 1);
 		topics.push(newTopic);
 	}
 
-	console.log(topics);
+	/*console.log(topics);
 	var numOfTopics = topics.length;
 	for(var t = 0; t < numOfTopics; t++){
 		console.log('Topic: ' + topics[t].topic, '\nHead: ' + topics[t].headNode.text);
+	}*/
+
+	console.log('***Created initial topic areas.');
+
+	var chainsToAdd = chains.slice();
+	for(var c = 0; c < chainsToAdd.length; c++){
+		var topicID = chainsToAdd[c].pairing.id;
+		var topicIndex = getTopicWithId(topics, topicID);
+		if(topicIndex < 0 ){
+			chainsToAdd.push(chainsToAdd[c]);
+		}
+		else{
+			topics[topicIndex].addNode(chainsToAdd[c]);
+
+		}
+		chainsToAdd.splice(c, 1);
 	}
+
+	for(var t = 0; t < numOfTopics; t++){
+		console.log('Topic: ' + topics[t].topic + ' (' + topics[t].nodes.length + ' nodes)', '\nHead: ' + topics[t].headNode.text);
+	}
+
+	console.log('***Added chained nodes to topic areas.');
 
 	console.log('FINISHED GROUPING ANALYSIS');
 
