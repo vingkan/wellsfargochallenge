@@ -1,4 +1,5 @@
 function Topic(headNode, baselineMap, pairThreshold){
+	this.id = headNode.id;
 	this.idList = [];
 	this.headNode = headNode;
 	this.topic = '';
