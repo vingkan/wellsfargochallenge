@@ -14,6 +14,7 @@ Topic.prototype.addNode = function(newNode){
 	this.idList.push(newNode.id);
 	this.nodes.push(newNode);
 	this.addAllWords(newNode.text);
+	this.updateTreshold(newNode);
 	this.assessTopic();
 }
 
@@ -65,4 +66,15 @@ Topic.prototype.getRepresentativeSample = function(){
 
 Topic.prototype.getKeywords = function(){
 	return this.wordMap.getAllWords();
+}
+
+Topic.prototype.updateTreshold = function(newNode){
+	if(newNode.pairing.score === 'NO_SCORE'){
+
+	}
+	else{
+		if(newNode.pairing.score < this.pairThreshold){
+			this.pairThreshold = newNode.pairing.score;
+		}
+	}
 }
